@@ -1,0 +1,10 @@
+==============================================================================
+CHOWBROWSER
+==============================================================================
+
+== Description
+Defunct online restaurant ordering Ruby on Rails application I put together a
+while back.
+
+== Getting https files with Net::HTTP
+controllers/public/delivery_addresses_controller#distance

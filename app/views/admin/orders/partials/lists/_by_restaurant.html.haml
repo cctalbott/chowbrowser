@@ -1,0 +1,9 @@
+- monthly_orders_restaurants(orders).each do |restaurant, orders|
+  %tr.category_row
+    - if Restaurant.find_by_name(restaurant)
+      %td= link_to truncate(restaurant, :length => 50), admin_orders_by_restaurant_path(@year, @month, @day, Restaurant.find_by_name(restaurant).id)
+    - else
+      %td= !restaurant.blank? ? truncate(restaurant, :length => 50) : "N/A"
+    %td.count_col{:align => "center"}= month_count(orders)
+    %td.price{:align => "right"}= number_to_currency(monthly_total(orders))
+    %td.price{:align => "right"}= number_to_currency(month_average(orders))

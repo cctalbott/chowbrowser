@@ -1,0 +1,3 @@
+%h1 New Printer
+= render :partial => "form", :locals => { :url => admin_printers_path, :html => { :method => :post }, :submit_title => "Create Printer" }
+= link_to "Back", :back

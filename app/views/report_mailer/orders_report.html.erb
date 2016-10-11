@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Orders on <%= @orders.first.purchased_at.strftime("%Y %b %d %a %l:%M%p %Z") %> from <%= @orders.first.restaurant.name %></h1>
+    <table style="border: 1px solid black;">
+      <tr>
+        <th align="right" style="border: 1px solid black;">Order Total</th>
+        <th align="right" style="border: 1px solid black;">Restaurant Rate</th>
+        <th align="right" style="border: 1px solid black;">Owed to Restaurant</th>
+        <th align="right" style="border: 1px solid black;">Daily Deposit</th>
+      </tr>
+      <% @orders.each do |order| %>
+        <tr>
+          <td align="right" style="border: 1px solid black;"><%= number_to_currency(order.base_total) %></td>
+          <td align="right" style="border: 1px solid black;"><%= order.location.percentage %></td>
+          <td align="right" style="border: 1px solid black;"><%= number_to_currency(order.restaurant_deposit) %></td>
+          <td>&nbsp;</td>
+        </tr>
+      <% end %>
+      <tr>
+        <td colspan="3" style="border: 1px solid black;"></td>
+        <td align="right" style="border: 1px solid black;"><%= number_to_currency(combined_restaurant_deposit(@orders)) %></td>
+      </tr>
+    </table>
+  </body>
+</html>

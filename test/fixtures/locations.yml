@@ -1,0 +1,8 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  address: "123 First St"
+  region: "TX"
+  city: "Lubbock"
+  postal_code: "79424"
+  restaurant: one

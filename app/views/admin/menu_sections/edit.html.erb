@@ -1,0 +1,2 @@
+<h1>Edit Menu Section in <%=h @menu_section.menu.name %> for <%=h @menu_section.menu.location.restaurant.name %> at <%=h @menu_section.menu.location.address %>, <%=h @menu_section.menu.location.city %>, <%=h @menu_section.menu.location.region %></h1>
+<%= render :partial => "form", :locals => {:menu_section => @menu_section, :theurl => admin_menu_section_path(@menu_section, :method => "post"), :submit_name => "Edit Section"} %>

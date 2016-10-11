@@ -1,0 +1,49 @@
+#sidebar
+  %aside
+    - if @cart.line_items.count >= 1
+      = render :partial => 'layouts/cart'
+    %section
+      %h1= @menu.location.restaurant.name
+      %p= @menu.location.restaurant.description
+      - if @menu.is_available? && @menu.location.delivers && @menu.location.drivers_active?
+        %p
+          <b>Delivery Fee:</b> #{number_to_currency(@menu.location.delivery.fee)}
+      - if @menu.location.restaurant_hours && @menu.location.restaurant_hours.count > 0
+        %ul
+          %li
+            %ul
+              %li
+                %em
+                  Location: #{@menu.location.address}, #{@menu.location.city}, #{@menu.location.region}
+              %li
+                %ul
+                  - RestaurantHour.joins(:location => :menus).select("restaurant_hours.day, menus.id").where("menus.id = ?", @menu.id).group("restaurant_hours.day, menus.id").order("day ASC").each do |day|
+                    %li
+                      %b
+                        = days_array[day.day][0]
+                        \:
+                      - hour = RestaurantHour.hours_by_day_and_menu(@menu.id, day.day)
+                      - hour.map!{|hour| "#{to_ampm(hour.start_hr, hour.start_min)} to #{to_ampm(hour.end_hr, hour.end_min)}"}
+                      = hour.join " & "
+      - if @delivery_days && @delivery_days.length > 0
+        %ul
+          %li
+            %em Delivery Hours
+          %li
+            %ul
+              - @delivery_days.each do |day|
+                %li
+                  %b
+                    #{days_array[day.day][0]}:
+                  - hours = RestaurantHour.location_delivery_hours(@menu.location.id, day.day)
+                  #{hours.join " & "}
+      - if @menu.location.holidays && @menu.location.holidays.count > 0
+        %ul
+          %li
+            %em Holiday Hours
+          %li
+            %ul
+              - @menu.location.holidays.order("day ASC").each do |holiday|
+                %li
+                  = holiday.day.strftime("%d %b")
+                  \: #{holiday.all_day ? "Closed" : "#{to_ampm(holiday.start_hr, holiday.start_min)} to #{to_ampm(holiday.end_hr, holiday.end_min)}"}

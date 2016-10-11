@@ -1,0 +1,14 @@
+- content_for :crumbs do
+  %ul
+    %li
+      = link_to("Admin Home", admin_path)
+      &raquo;
+      = link_to("Deliver Drivers", admin_delivery_drivers_path)
+%h1= "Delivery Driver: #{@delivery_driver.driver_title}"
+%ul
+  %li= @delivery_driver.phone
+%p
+  = link_to "Edit Deliver Driver", edit_admin_delivery_driver_path(@delivery_driver)
+  |
+  = link_to "Destroy Delivery Driver", admin_delivery_driver_path(@delivery_driver), :method => :delete, :confirm => "Are you sure? This cannot be undone."
+= link_to "Back", :back

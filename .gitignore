@@ -1,0 +1,16 @@
+.bundle
+db/*.sqlite3
+log/*.log
+unicorn/*.log
+unicorndemo/*.log
+tmp/
+.sass-cache/
+*~
+config/initializers/faye_token.rb
+app/controllers/test_controller.rb
+app/views/test/
+app/controllers/tests_controller.rb
+app/views/tests/
+public/robots.txt
+config/nginx.conf
+bin/

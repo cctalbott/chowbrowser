@@ -1,0 +1,42 @@
+- content_for :other_styles do
+  = stylesheet_link_tag 'public/orders'
+- content_for :other_scripts do
+  = javascript_include_tag "public/orders"
+%p
+  Current subtotal: <b>#{number_to_currency(@cart.total_price)}</b>
+  |
+  Delivery fee: <b>#{number_to_currency(@cart.location.delivery.fee)}</b><span id="plus_delivery">
+  |
+  Plus delivery subtotal: <b>#{number_to_currency(@cart.total_price + @cart.location.delivery.fee)}</b></span>
+%p Estimated wait on delivery orders may be inaccurate as a result of distances from restaurants to your delivery address or current traffic conditions.
+= form_for @cart, :url => public_cart_update_delivery_path(), :method => "post" do |f|
+  = render "/shared/error_messages", :target => @cart
+  %fieldset
+    %legend Delivery Method
+    %ol
+      %li
+        = f.label :delivers, "Delivers?"
+        = f.select(:delivers, { "Pickup" => false, "Delivery" => true})
+  %fieldset{:id => "delivery_address_fields"}
+    %legend Delivery Address. Address must be within 11 miles of restaurant.
+    %p{:id => "delivery_distance"} Current distance from restaurant and expected duration of delivery.
+    = hidden_field "restaurant_location", "lat_lon", {:value => "#{@cart.location.lat},#{@cart.location.lon}"}
+    - if @delivery_addresses && @delivery_addresses.length > 0
+      %ol
+        %li
+          = label_tag "previous_delivery", "Select Previous Delivery Address"
+          = select_tag "previous_delivery", options_from_collection_for_select(@delivery_addresses, "da_id", "full_address")
+    %ol
+      = f.fields_for :delivery_address do |daf|
+        %li
+          = daf.label :address
+          = daf.text_field :address
+        %li
+          = daf.label :city
+          = daf.text_field :city
+        %li
+          = daf.label :zip
+          = daf.text_field :zip
+  %fieldset
+    %p= f.submit "Submit"
+= javascript_include_tag "public/cart"

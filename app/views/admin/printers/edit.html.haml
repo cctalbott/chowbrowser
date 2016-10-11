@@ -1,0 +1,3 @@
+%h1= "Edit Printer: #{@printer.model_name} #{@printer.service_no}"
+= render :partial => "form", :locals => { :url => admin_printer_path(@printer), :html => { :method => :put }, :submit_title => "Edit Printer" }
+= link_to "Back", :back

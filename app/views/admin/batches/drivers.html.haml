@@ -1,0 +1,30 @@
+%h1 Drivers Batch
+%p= link_to "Batch Reports", admin_batches_path()
+- if @orders && @orders.length > 0
+  %table
+    %tr
+      %th{:align => "left"} Date
+      %th{:align => "left"} Driver
+      %th{:align => "right"} Subtotal
+      %th{:align => "right"} Total
+      %th{:align => "right"} Delivery Fee
+      %th{:align => "right"} Tip
+      %th{:align => "right"} Driver Deposits
+    - @orders_by_day.each do |formatted_date, orders|
+      - orders_by_driver = orders.group_by { |o| o.delivery_driver }
+      - orders_by_driver.each do |driver, orders|
+        %tr
+          %td= formatted_date
+          %td= driver
+          %td{:align => "right"}= number_to_currency(combined_subtotal(orders))
+          %td{:align => "right"}= number_to_currency(combined_total(orders))
+          %td{:align => "right"}= number_to_currency(combined_delivery_fee(orders))
+          %td{:align => "right"}= number_to_currency(combined_tip(orders))
+          %td{:align => "right"}= number_to_currency(combined_driver_deposit(orders))
+    %tr
+      %td{:colspan => "2"}
+      %td{:align => "right"}= number_to_currency(combined_subtotal(@orders))
+      %td{:align => "right"}= number_to_currency(combined_total(@orders))
+      %td{:align => "right"}= number_to_currency(combined_delivery_fee(@orders))
+      %td{:align => "right"}= number_to_currency(combined_tip(@orders))
+      %td{:align => "right"}= number_to_currency(combined_driver_deposit(@orders))

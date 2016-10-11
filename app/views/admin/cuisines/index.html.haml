@@ -1,0 +1,13 @@
+- content_for :crumbs do
+  %ul
+    %li #{link_to "Admin Home", admin_path}
+%h1 Cuisines
+%div #{link_to('New Cuisine', new_admin_cuisine_path)}
+%table
+  %tr
+    %th{:align => "left"} Name
+    %th{:align => "right"} &nbsp;
+  - @cuisines.each do |cuisine|
+    %tr
+      %td #{link_to cuisine.name, admin_cuisine_path(cuisine)}
+      %td{:align => "right"} #{link_to "edit", edit_admin_cuisine_path(cuisine)}

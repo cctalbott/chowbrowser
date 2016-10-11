@@ -1,0 +1,8 @@
+#current_cart
+  %section
+    .current_order
+    :javascript
+      $(document).ready(function() {
+        $.getScript("/cart");
+      });
+    %p= link_to "Hide Your Current Order", "\#", :id => "show_cart"

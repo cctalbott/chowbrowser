@@ -1,0 +1,3 @@
+%h1 New Cuisine
+= render :partial => "form", :locals => { :url => admin_cuisines_path, :html => { :method => :post }, :submit_title => "Create Cuisine" }
+= link_to "Back", :back

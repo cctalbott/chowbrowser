@@ -1,0 +1,21 @@
+var status = "<%= @order.status %>";
+var header = "";
+var paragraph = "";
+switch(status) {
+  case "placed":
+    header = "Order Placed!";
+    paragraph = "Your order has been placed and is awaiting confirmation by <%= @order.restaurant_name %>.";
+    break;
+  case "confirmed":
+    header = "Order Confirmed!";
+    paragraph = "Your order has been confirmed by <%= @order.restaurant_name %>.";
+    break;
+  default:
+    header = "Order Placed!";
+    paragraph = "Your order has been placed and is awaiting confirmation by <%= @order.restaurant_name %>.";
+}
+<% broadcast "/orders/#{@order.id}/status_update" do %>
+<%# broadcast "/twilio/status_update/#{@order.id}" do %>
+  $("#order_status h1").html(header);
+  $("#order_status p").html(paragraph);
+<% end %>

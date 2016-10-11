@@ -1,0 +1,18 @@
+%span.fields
+  %li
+    = f.label :day, "Day"
+    = f.select :day, days_array
+  %li
+    = f.label :start_hr, "Start Hour"
+    = f.select :start_hr, 0..23
+  %li
+    = f.label :start_min, "Start min"
+    = f.select :start_min, 0..59
+  %li
+    = f.label :end_hr, "End Hour"
+    = f.select :end_hr, 0..23
+  %li
+    = f.label :end_min, "End Min"
+    = f.select :end_min, 0..59
+  %li
+    = link_to_remove_fields "remove", f

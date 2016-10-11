@@ -1,0 +1,20 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+#one:
+#  name: MyString
+#  description: MyText
+#  price: 1.5
+#  menu_section:
+#
+#two:
+#  name: MyString
+#  description: MyText
+#  price: 1.5
+#  menu_section:
+#
+
+one:
+  name: "Brisket"
+  description: "1/2lb. Sliced."
+  price: "5.20"
+  menu_section: one

@@ -1,0 +1,27 @@
+= form_for @printer, :url => url, :html => html do |f|
+  - if @printer.errors.any?
+    #error_explanation
+      %h2= pluralize(@printer.errors.count, "error") + " prohibited this printer from being saved:"
+      %ul
+        - @printer.errors.full_messages.each do |msg|
+          %li= msg
+  %fieldset
+    %legend= @printer.model_name ? "Printer " + @printer.model_name : "Printer"
+    %ol
+      %li
+        = f.label :model_name
+        = f.text_field :model_name
+      %li
+        = f.label :service_no
+        = f.text_field :service_no
+      %li
+        = f.label :email
+        = f.text_field :email
+  %fieldset
+    %legend Locations
+    %ol
+      %li
+        = f.label :location_id, "Location"
+        = f.select :location_id, @location_collection.map {|l| ["#{l.restaurant_name} #{l.full_address}", l.id]}
+  %fieldset
+    .actions= f.submit submit_title

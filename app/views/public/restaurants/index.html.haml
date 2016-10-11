@@ -1,0 +1,40 @@
+- content_for :other_styles do
+  = stylesheet_link_tag 'public/restaurants'
+- if @cuisine
+  %h2{:style => "margin-bottom: 15px;"} Cuisine: #{@cuisine.name}
+- if @restaurants && @restaurants.length > 0
+  #restaurant_ajax
+  %ul#restaurants_list.cf
+    - @restaurants.each do |restaurant|
+      - restaurant.locations.each do |location|
+        - if location.menus.exists?
+          - current_menu = which_menu?(location.menus)
+          - if current_menu.nil?
+            - current_menu = location.menus.order("position ASC, created_at DESC").first
+          - if @cuisine && @cuisine.name == "Delivery"
+            - if current_menu.is_available?
+              %li
+                %h1 #{link_to restaurant.name, public_menu_path(current_menu.id)}
+                - if location.delivers && location.drivers_active?
+                  %div{:class => "delivering"} Delivering
+                %p
+                  #{location.address}
+                  , #{location.city}, #{location.region} #{location.postal_code}
+          - else
+            %li
+              - if current_menu.is_available?
+                %h1 #{link_to restaurant.name, public_menu_path(current_menu.id)}
+              - else
+                %h1 #{link_to restaurant.name, public_menu_path(current_menu.id), {:style => "color: #000b18;"}}
+              - if current_menu.is_available? && location.delivers && location.drivers_active?
+                %div{:class => "delivering"} Delivering
+              %p
+                #{location.address}
+                , #{location.city}, #{location.region} #{location.postal_code}
+- else
+  %p No restaurants currently available.
+%h2 By Cuisine:
+%ul#cuisine_list.cf
+  %li= link_to "All", public_restaurants_path
+  - @cuisines.each do |cuisine|
+    %li= link_to cuisine.name, public_restaurants_path(:cuisine => cuisine.id)

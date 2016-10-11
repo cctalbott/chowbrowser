@@ -1,0 +1,35 @@
+= render :partial => "admin/orders/partials/for_header"
+%p #{link_to "Incomplete Orders", admin_incomplete_orders_path} | #{link_to "Complete Orders", admin_complete_orders_path}
+%h1 Previous orders
+#view_by_inputs
+  = render :partial => "admin/orders/partials/indexes_select_boxes/year_month_category"
+- if @orders && @orders.count > 0
+  %p.downloads
+    Download: #{link_to "CSV", admin_view_orders_path(@year, @month, @day, @category, :format => :csv)} | #{link_to "PDF", admin_view_orders_path(@year, @month, @day, @category, :format => :pdf)}
+  = render :partial => "admin/orders/partials/sums"
+  %table
+    %tr
+      - case @category
+      - when "restaurant", "customer"
+        %th{:align => "left"}
+          = (@category == "restaurant") ? "Restaurant" : "Customer"
+          /
+        %th.count_col #
+        %th.price{:align => "right"} Avg
+        %th.price{:align => "right"} Total
+      - else
+        %th.id_col ID
+        %th{:align => "left"} Restaurant
+        %th.customer_col{:align => "left"} Customer
+        %th.date_col{:align => "left"} Day/Time
+        %th.price{:align => "right"} Total
+        %th &nbsp;
+    - @order_months.each do |month, orders|
+      - if @category == "restaurant"
+        = render :partial => "admin/orders/partials/lists/by_restaurant", :locals => { :orders => orders, :month => month }
+      - elsif @category == "customer"
+        = render :partial => "admin/orders/partials/lists/by_customer", :locals => { :orders => orders, :month => month }
+      - else
+        = render :partial => "admin/orders/partials/lists/by_all", :locals => { :orders => orders }
+- else
+  %p.no_records= no_records

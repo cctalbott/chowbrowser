@@ -1,0 +1,48 @@
+- content_for :other_styles do
+  = stylesheet_link_tag 'public/menus'
+- content_for :other_scripts do
+  = javascript_include_tag "public/menus"
+%nav#alt_location_menus
+  - if @menu.location.menus.count > 1
+    - menus = menu_available?(@menu.location.menus.where("id != ?", @menu))
+    - menus_no_time = menu_time_set?(@menu.location.menus.where("id != ?", @menu))
+    - if menus && menus.count > 0 || menus_no_time && menus_no_time.count > 0
+      %ul.cf
+        %li Alternate menus
+        - if menus
+          - for menu in menus do
+            %li= link_to menu.name, public_menu_path(menu)
+        - if menus_no_time
+          - for menu in menus_no_time do
+            %li= link_to menu.name, public_menu_path(menu)
+= render :partial => 'public/menus/partials/sidebar'
+#restaurant_menu
+  %h1
+    = @menu.location.restaurant.name
+    |
+    %span
+      = @menu.location.address
+      , #{@menu.location.city}, #{ @menu.location.region} | #{ @menu.name} #{ (@menu.menu_hours.count > 0) ? served_from(@menu.menu_hours) : "serves daily"}
+  %div{:id => "menu_status"}
+    - if @menu.is_available?
+      %p{:class => "available"} #{@menu.location.restaurant.name} is currently serving from this menu.
+    - else
+      %p{:class => "not_available"} #{@menu.location.restaurant.name} is not currently serving from this menu.
+    - if @menu.is_available? && @menu.location.delivers && @menu.location.drivers_active?
+      %p{:class => "available"} Delivery is currently available.
+    - else
+      %p{:class => "not_available"} Delivery is not currently available.
+  %ul.no_bullets
+    - for menu_section in @menu_sections do
+      %li
+        %h2= menu_section.name
+        - unless menu_section.description.blank?
+          %p= menu_section.description
+      %li
+        %ul.no_bullets.menu_section.cf
+          - for item in menu_section.menu_section_items.where("featured" => [true, "true", "t"]).order("position ASC, created_at ASC") do
+            %li.item.featured_item.cf{:rel => item.id.to_i}
+              = render :partial => "public/menus/partials/items", :locals => { :item => item }
+          - for item in menu_section.menu_section_items.where("featured" => [false, "false", "f"]).order("position ASC, created_at ASC") do
+            %li.item.cf
+              = render :partial => "public/menus/partials/items", :locals => { :item => item }

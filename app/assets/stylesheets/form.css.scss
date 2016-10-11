@@ -1,0 +1,149 @@
+@import "colors";
+
+// FORM ---------------------------------------------
+form {
+  //background: #002f5c;
+  //-moz-border-radius: 5px;
+  //-webkit-border-radius: 5px;
+  //border-radius: 5px;
+  //padding: 20px;
+  max-width: 625px;
+  margin: 0;
+  fieldset {
+    border: 1px solid #777;
+    margin-bottom: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+  }
+  fieldset:last-of-type {
+    margin-bottom: 0;
+    border: none;
+  }
+  legend {
+    color: $highlight_color;
+    font-size: 16px;
+    font-weight: bold;
+    //padding-bottom: 10px;
+    padding: 0 5px;
+    text-shadow: 0 1px 1px #64b3ff;
+  }
+}
+//form > fieldset > legend:before {
+//  content: "Step "counter(fieldsets) ": ";
+//  counter-increment: fieldsets;
+//}
+form {
+  #error_explanation {
+    color: white;
+    background-color: red;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-color: #b9ddff;
+    border-color: rgba(255, 255, 255, .6);
+    border-style: solid;
+    border-width: 2px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+  }
+  fieldset fieldset legend {
+    //color: #111;
+    font-size: 13px;
+    font-weight: normal;
+    padding-bottom: 0;
+  }
+  ol li {
+    //background: #68a1d8;
+    //background: rgba(255, 255, 255, .3);
+    //border-color: #b9ddff;
+    //border-color: rgba(255, 255, 255, .6);
+    //border-style: solid;
+    //border-width: 2px;
+    //-moz-border-radius: 5px;
+    //-webkit-border-radius: 5px;
+    //border-radius: 5px;
+    //line-height: 30px;
+    list-style: none;
+    padding: 5px 10px;
+    margin-bottom: 2px;
+    &.add_fields {
+      border: none;
+      //background-color: $highlight_color;
+      //a {color: #ccc;}
+    }
+    ol li {
+      background: none;
+      border: none;
+      float: left;
+      padding: 0;
+      margin: 0 0 2px;
+    }
+    &.list_heading {
+      float: none;
+      display: block;
+      clear: both;
+    }
+  }
+  label {
+    float: left;
+    font-size: 13px;
+    width: 210px;
+    margin-right: 5px;
+    //color: #ccc;
+    text-align: right;
+    line-height: 1.5em;
+    padding-top: 7px;
+  }
+  .check {
+    &.collection {
+      //width: 150px;
+      //float: left;
+      label {
+        width: 122px;
+        text-align: left;
+      }
+    }
+  }
+  fieldset fieldset label {
+    background: none no-repeat left 50%;
+    line-height: 20px;
+    padding: 0 0 0 30px;
+    width: auto;
+    text-align: right;
+    &:hover {cursor: pointer;}
+    &.input_list label {
+      background: none no-repeat left 50%;
+      line-height: 30px;
+      padding: 0;
+    }
+  }
+  input:not([type=radio]), textarea {
+    background: #fff;
+    //border: none;
+    border-color: #ccc;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    border-radius: 3px;
+    font: italic 13px Georgia, "Times New Roman", Times, serif;
+    outline: none;
+    padding: 5px;
+    width: auto;
+  }
+  input:not([type=submit]):focus, textarea:focus {background: #eaeaea;}
+  input[type=radio], input[type=checkbox] {
+    float: left;
+    margin-right: 5px;
+  }
+  input[type=radio] {margin-top: 8px;}
+  input[type=checkbox] {margin-top: 10px;}
+  input[type=submit] {
+    cursor: pointer;
+    float: right;
+    min-width: 50px;
+  }
+  input {
+    &.input_alert { border-color: red; }
+  }
+}

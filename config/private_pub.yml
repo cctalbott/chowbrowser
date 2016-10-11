@@ -1,0 +1,10 @@
+development:
+  server: "http://localhost:9292/faye"
+  secret_token: "jgvt399nbtreg8569f"
+test:
+  server: "http://localhost:9292/faye"
+  secret_token: "jgvt399nbtreg8569f"
+production:
+  server: "https://chowbrowser.com:4443/faye"
+  secret_token: "jgvt399nbtreg8569f"
+  signature_expiration: 3600 # One hour

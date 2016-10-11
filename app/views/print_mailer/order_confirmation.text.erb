@@ -1,0 +1,44 @@
+<%= @order.cart.location.restaurant_name %> <%= @order.cart.location.full_address %>,
+
+An order has been placed through ChowBrowser to your restaurant!
+
+----------------------------------------
+----------------------------------------
+<% if @order.cart %>
+<% total_price = 0.0 %>
+Order identification number <%= @order.identification_no %>
+Order from <%= @order.cart.line_items.first.menu_section_item.menu_section.menu.location.restaurant.name %> at <%= @order.cart.line_items.first.menu_section_item.menu_section.menu.location.address %>, <%= @order.cart.line_items.first.menu_section_item.menu_section.menu.location.city %>, <%= @order.cart.line_items.first.menu_section_item.menu_section.menu.location.region %>
+<% for line_item in @order.cart.line_items do %>
+<% total_price += line_item.menu_section_item.price.to_f %>
+-- <%=h line_item.menu_section_item.name %> | <%=h number_to_currency(line_item.menu_section_item.price) %>
+<% if line_item.menu_item_options %>
+<% for menu_item_option in line_item.menu_item_options do %>
+<% total_price += menu_item_option.price.to_f %>
+---- <%=h menu_item_option.name %> | <%=h number_to_currency(menu_item_option.price) %>
+<% end %>
+<% end %>
+<% if line_item.instructions %>
+* <%= line_item.instructions %>
+<% end %>
+<% end %>
+----------------------------------------
+<% sub_total = total_price %>
+<% tax = total_price.to_f * 0.0825 %>
+<% total_price += tax %>
+Sub Total: <%= number_to_currency(sub_total) %>
+Tax: <%= number_to_currency(tax) %>
+Grand Total: <%= number_to_currency(total_price) %>
+----------------------------------------
+Retrieval Method:
+<% if @order.cart.delivers %>
+Delivery to:
+<%= @order.billing_address.first_name %> <%= @order.billing_address.last_name %>
+<%= @order.deliver_address ? @order.deliver_address : "" %>
+Estimated wait including delivery: <%= @order.total_wait %>
+<% else %>
+Pickup By:
+<%= @order.billing_address.first_name %> <%= @order.billing_address.last_name %>
+Estimated wait: <%= @order.total_wait %>
+<% end %>
+<%= @order.phone %>
+<% end %>

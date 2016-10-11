@@ -1,0 +1,11 @@
+= form_for sales_person, :url => theurl do |sp_f|
+  = render "/shared/error_messages", :target => @sales_person
+  %fieldset
+    %legend
+      Sales Person
+    %ol
+      %li
+        = sp_f.label :user_id
+        = sp_f.select :user_id, @user_collection, {:prompt => "Choose sales person"}
+  %fieldset
+    %p= sp_f.submit @submit_name

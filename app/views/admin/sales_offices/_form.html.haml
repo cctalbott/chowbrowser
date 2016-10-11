@@ -1,0 +1,28 @@
+= form_for @sales_office, :url => url, :html => html do |f|
+  - if @sales_office.errors.any?
+    #error_explanation
+      %h2= pluralize(@sales_office.errors.count, "error") + " prohibited this user from being saved:"
+      %ul
+        - @sales_office.errors.full_messages.each do |msg|
+          %li= msg
+  %fieldset
+    %legend= @sales_office.name ? "Sales Office " + @sales_office.name : "Sales Office"
+    %ol
+      %li
+        = f.label :name
+        = f.text_field :name
+      %li
+        = f.label :location
+        = f.text_field :location
+  %fieldset
+    %legend Restaurants
+    %ol
+      %li
+        %ol
+          - @location_collection.each do |location|
+            %li.check.collection
+              = check_box_tag "sales_office[location_ids][]", location.id, @sales_office.locations.include?(location)
+              = "#{location.restaurant_name}: #{location.full_address}"
+          %br
+  %fieldset
+    .actions= f.submit submit_title

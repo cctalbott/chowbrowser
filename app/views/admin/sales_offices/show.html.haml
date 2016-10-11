@@ -1,0 +1,25 @@
+- content_for :crumbs do
+  %ul
+    %li
+      = link_to("Admin Home", admin_path)
+      &raquo;
+      = link_to("Sales Offices", admin_sales_offices_path)
+%h1= "Sales Office: #{@sales_office.name}"
+%p= "#{@sales_office.location}."
+- if @sales_office.locations
+  %h2 Locations
+  %ul
+    - @sales_office.locations.each do |location|
+      %li= "#{location.restaurant_name}: #{location.full_address}"
+      - if location.users && location.users.length > 0
+        %li
+          %h3 Users
+          %ul
+            - location.users.each do |user|
+              %li
+                #{user.email} with role of #{user.role}
+%p
+  = link_to "Edit Sales Office", edit_admin_sales_office_path(@sales_office)
+  |
+  = link_to "Destroy Sales Office", admin_sales_office_path(@sales_office), :method => :delete, :confirm => "Are you sure? This cannot be undone."
+= link_to "Back", :back

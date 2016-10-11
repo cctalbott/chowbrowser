@@ -1,0 +1,20 @@
+%span.fields
+  %li.check
+    = f.label :all_day, "All day?"
+    = f.check_box :all_day
+    %br/
+  %li
+    = f.label :start_hr, "Opens"
+    = f.select :start_hr, 0..23, {:prompt => "Choose hour"}
+    \:
+    \#{f.select :start_min, (00..59).step(5)}
+  %li
+    = f.label :end_hr, "Closes"
+    = f.select :end_hr, 0..23, {:prompt => "Choose hour"}
+    \:
+    \#{f.select :end_min, (00..59).step(5)}
+  %li
+    = f.label :day
+    = f.date_select :day, :discard_year => true
+  %li
+    = link_to_remove_fields "remove", f

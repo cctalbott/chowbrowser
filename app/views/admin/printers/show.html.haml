@@ -1,0 +1,14 @@
+- content_for :crumbs do
+  %ul
+    %li
+      = link_to("Admin Home", admin_path)
+      &raquo;
+      = link_to("Printers", admin_printers_path)
+%h1= "Printer: #{@printer.model_name} #{@printer.service_no}"
+- if @printer.location
+  %p= "#{@printer.location.restaurant_name} #{@printer.location.full_address}."
+%p
+  = link_to "Edit Printer", edit_admin_printer_path(@printer)
+  |
+  = link_to "Destroy Printer", admin_printer_path(@printer), :method => :delete, :confirm => "Are you sure? This cannot be undone."
+= link_to "Back", :back

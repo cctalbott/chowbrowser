@@ -1,0 +1,55 @@
+%h1 Orders Batch
+%p= link_to "Drivers Batch Reports", admin_batches_drivers_path()
+- if @orders && @orders.length > 0
+  %table
+    %tr
+      %th{:align => "left"} Date
+      %th{:align => "left"} Restaurant
+      -# %th{:align => "left"} Driver
+      %th{:align => "right"} Subtotal
+      %th{:align => "right"} Total
+      -# %th{:align => "right"} Delivery Fee
+      -# %th{:align => "right"} Tip
+      %th{:align => "right"} Rest Deposit
+      -# %th{:align => "right"} Driver Deposits
+      %th{:align => "right"} CB Deposit
+      %th{:align => "right"} Assoc Deposit/2
+      %th{:align => "right"} Sales Deposit
+      %th{:align => "right"} Corp Deposit
+    - @orders_by_day.each do |formatted_date, orders|
+      - orders_by_restaurant = orders.group_by { |o| o.location.id }
+      - orders_by_restaurant.each do |location_id, orders|
+        %tr
+          %td= formatted_date
+          %td= restaurant_name(location_id)
+          -# %td= order.delivery_driver
+          %td{:align => "right"}= number_to_currency(combined_subtotal(orders))
+          %td{:align => "right"}= number_to_currency(combined_total(orders))
+          -# %td{:align => "right"}= number_to_currency(combined_delivery_fee(orders))
+          -# %td{:align => "right"}= number_to_currency(combined_tip(orders))
+          %td{:align => "right"}= number_to_currency(combined_restaurant_deposit(orders))
+          -# %td{:align => "right"}= number_to_currency(combined_driver_deposit(orders))
+          %td{:align => "right"}= number_to_currency(combined_chowbrowser_deposit(orders))
+          %td{:align => "right"}= number_to_currency(combined_assoc_deposit(orders)/2)
+          %td{:align => "right"}= number_to_currency(combined_sales_deposit(orders))
+          %td{:align => "right"}= number_to_currency(combined_corp_deposit(orders))
+      %tr
+        %th{:colspan => "5"}= formatted_date
+        -# %td{:align => "right"}= number_to_currency(combined_driver_deposit(orders))
+        %td{:align => "right"}= number_to_currency(combined_chowbrowser_deposit(orders))
+        %td{:align => "right"}= number_to_currency(combined_assoc_deposit(orders)/2)
+        %td{:align => "right"}= number_to_currency(combined_sales_deposit(orders))
+        %td{:align => "right"}= number_to_currency(combined_corp_deposit(orders))
+    %tr
+      %th{:colspan => "2"} Combined
+      %td{:align => "right"}= number_to_currency(combined_subtotal(@orders))
+      %td{:align => "right"}= number_to_currency(combined_total(@orders))
+      -# %td{:align => "right"} &nbsp;
+      -# %td{:align => "right"}= number_to_currency(combined_delivery_fee(@orders))
+      -# %td{:align => "right"}= number_to_currency(combined_tip(@orders))
+      %td{:align => "right"}= number_to_currency(combined_restaurant_deposit(@orders))
+      -# %td{:align => "right"}= number_to_currency(combined_driver_deposit(@orders))
+      %td{:align => "right"}= number_to_currency(combined_chowbrowser_deposit(@orders))
+      %td{:align => "right"}= number_to_currency(combined_assoc_deposit(@orders)/2)
+      %td{:align => "right"}= number_to_currency(combined_sales_deposit(@orders))
+      %td{:align => "right"}= number_to_currency(combined_corp_deposit(@orders))

@@ -1,0 +1,61 @@
+- content_for :crumbs do
+  %ul
+    %li
+      = link_to "Admin Home", admin_path
+      \&raquo; #{link_to "Restaurants", admin_restaurants_path} &raquo; #{link_to "Restaurant", admin_restaurant_path(@location.restaurant)}
+%h1= h @restaurant.name
+%h2
+  = h @location.address
+  , #{h @location.city}, #{h @location.region} #{h @location.postal_code}
+%p
+  = link_to "Add menu", admin_location_new_menu_path(@location)
+  | #{link_to "Import menu csv", admin_import_menus_path(@location)}
+- if @location.restaurant_hours && @location.restaurant_hours.count > 0
+  %h2 Hours
+  %table
+    %tr
+      %th Day
+      %th Open
+      %th Close
+    - @location.restaurant_hours.order("day ASC").each do |hour|
+      %tr
+        %td= h days_array[hour.day][0]
+        %td= h to_ampm(hour.start_hr, hour.start_min)
+        %td= h to_ampm(hour.end_hr, hour.end_min)
+- if @location.holidays && @location.holidays.count > 0
+  %h2 Holidays
+  %table
+    %tr
+      %th Day
+      %th All day?
+      %th Open
+      %th Close
+    - @location.holidays.order("day ASC").each do |hour|
+      %tr
+        %td= h hour.day
+        %td= h hour.all_day
+        %td= h (hour.start_hr && hour.start_min) ? to_ampm(hour.start_hr, hour.start_min) : "Not set"
+        %td= h (hour.end_hr && hour.end_min) ? to_ampm(hour.end_hr, hour.end_min) : "Not set"
+%h2 Menus
+%table
+  %tr
+    %th{:colspan => "2"} Menu
+  - for menu in @location.menus.order("position ASC, created_at DESC") do
+    %tr
+      %td= link_to menu.name, admin_menu_path(menu)
+      %td{:align => "right"}
+        = link_to "Edit", edit_admin_menu_path(menu)
+        | #{link_to "Destroy", admin_menu_path(menu), :method => "delete", :confirm => "Are you sure? This will remove the menu and all it's items."}
+- if @location.users && @location.users.length > 0
+  %h2 Users
+  %ul
+    - @location.users.each do |user|
+      %li= user.email
+%h2 Printers
+%ul
+  - if @location.printer
+    %li
+      #{@location.printer.model_name} #{@location.printer.service_no}
+      | #{link_to "Edit Printer", edit_admin_printer_path(@location.printer)}
+      | #{link_to "Destroy Printer", admin_printer_path(@location.printer), :method => "delete", :confirm => "Are you sure? This cannot be undone."}
+  %li= link_to "Add Printer", new_admin_printer_path

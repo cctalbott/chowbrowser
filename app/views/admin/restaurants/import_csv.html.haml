@@ -1,0 +1,9 @@
+= form_for :dump, :url => admin_create_restaurants_path, :html => {:multipart => true} do |f|
+  %fieldset
+    %legend Restaurant CSV Import
+    %ol
+      %li
+        %label{:for => "dump_file"} Select a CSV File:
+        = f.file_field :file
+  %fieldset
+    %p= submit_tag 'Submit'

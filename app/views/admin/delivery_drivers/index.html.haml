@@ -1,0 +1,13 @@
+- content_for :crumbs do
+  %ul
+    %li= link_to "Admin Home", admin_path
+%h1 Delivery Drivers
+%div= link_to('New Delivery Driver', new_admin_delivery_driver_path)
+%table
+  %tr
+    %th{:align => "left"} Name
+    %th{:align => "right"} &nbsp;
+  - @delivery_drivers.each do |delivery_driver|
+    %tr
+      %td= link_to delivery_driver.driver_title, admin_delivery_driver_path(delivery_driver)
+      %td{:align => "right"}= link_to "edit", edit_admin_delivery_driver_path(delivery_driver)

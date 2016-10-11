@@ -1,0 +1,15 @@
+- content_for :crumbs do
+  %ul
+    %li= link_to "Admin Home", admin_path
+%h1 Sales Offices
+%div= link_to('New Sales Office', new_admin_sales_office_path)
+%table
+  %tr
+    %th{:align => "left"} Name
+    %th{:align => "left"} Location
+    %th{:align => "right"} &nbsp;
+  - @sales_offices.each do |sales_office|
+    %tr
+      %td= link_to sales_office.name, admin_sales_office_path(sales_office)
+      %td= sales_office.location
+      %td{:align => "right"}= link_to "edit", edit_admin_sales_office_path(sales_office)

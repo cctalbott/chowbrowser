@@ -1,0 +1,22 @@
+<%= form_for menu_item_option, :url => theurl do |mio_f| %>
+  <fieldset>
+    <legend>Option for <%= @menu_section_item.name %> in <%= @menu_section_item.menu_section.name %> in <%= @menu_section_item.menu_section.menu.name %> for <%= @menu_section_item.menu_section.menu.location.restaurant.name %> at <%= @menu_section_item.menu_section.menu.location.address %>, <%= @menu_section_item.menu_section.menu.location.city %>, <%= @menu_section_item.menu_section.menu.location.region %></legend>
+    <ol>
+      <li>
+        <%= mio_f.label :name %>
+        <%= mio_f.text_field :name %>
+      </li>
+      <li>
+        <%= mio_f.label :price %>
+        <%= mio_f.text_field :price %>
+      </li>
+      <li>
+        <%= mio_f.label :position %>
+        <%= mio_f.text_field :position %>
+      </li>
+    </ol>
+  </fieldset>
+  <fieldset> 
+    <p><%= mio_f.submit submit_name %></p> 
+  </fieldset>
+<% end %>

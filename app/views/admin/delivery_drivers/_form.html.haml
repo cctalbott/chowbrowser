@@ -1,0 +1,24 @@
+= form_for @delivery_driver, :url => url, :html => html do |f|
+  - if @delivery_driver.errors.any?
+    #error_explanation
+      %h2= pluralize(@delivery_driver.errors.count, "error") + " prohibited this user from being saved:"
+      %ul
+        - @delivery_driver.errors.full_messages.each do |msg|
+          %li= msg
+  %fieldset
+    %legend= @delivery_driver.driver_title ? "Delivery Driver " + @delivery_driver.driver_title : "Delivery Driver"
+    %ol
+      %li
+        = f.label :phone
+        = f.text_field :phone
+      %li
+        = f.label :user_id, "Associated User"
+        = f.select :user_id, @users.map {|u| [u.email, u.id]}
+  %fieldset
+    %legend Hours
+    %ol
+      = f.fields_for :delivery_hours do |builder|
+        = render 'delivery_hour_fields', :f => builder
+      %li.add_fields= link_to_add_fields "Add Delivery Hours", f, :delivery_hours
+  %fieldset
+    .actions= f.submit submit_title

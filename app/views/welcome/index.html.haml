@@ -1,0 +1,38 @@
+- content_for :other_styles do
+  = stylesheet_link_tag 'welcome'
+- content_for :other_scripts do
+  :javascript
+    $(document).ready(function() {
+      equal_columns($("section.two:eq(0) div div"));
+      $(window).resize(function() {
+        equal_columns($("section.two:eq(0) div div"));
+      });
+    });
+%section#order_now.one
+  %a{:href => "#{url_for :controller => 'public/restaurants', :action => 'index'}", :class => "block_link"}
+    .normal.solid
+      %div.cf
+        %img{:src => image_path('plate.png'), :width => "106", :height => "75", :alt => "plate and silverware"}
+        .copy
+          %h2 Order Now
+          %p Browse restaurants, select your meal, order and eat.
+%section#about_us.one
+  %div.cf
+    %img{:src => image_path('socialicon.jpg'), :width => "180", :height => "180", :alt => "Ready. Set. Chow!"}
+    .copy
+      %h1 This Is ChowBrowser
+      %p There are a lot of good people making a lot of good food. We aim to make good food easy to find and convenient to order. We&rsquo;re connecting great restaurants with their happy customers.
+      %p The ChowBrowser application has the sole purpose of keeping you fed and happy. If we didn&rsquo;t think a feature would make your life easier we didn&rsquo;t include it. It&rsquo;s simple, it&rsquo;s quick, cheers all around.
+  %p.embiggen Choose a restaurant, place an order, checkout, rock on.
+%section.two
+  %a{:href => "#{url_for :controller => 'information', :action => 'restaurant'}", :class => "block_link"}
+    .normal
+      #promote_restaurant.solid
+        %h2 Promote Your Restaurant
+        %p We&rsquo;d love to work with your restaurant and provide you with the ability to take online orders.
+  %a{:href => "#{url_for :controller => 'information', :action => 'delivery'}", :class => "block_link"}
+    .normal
+      %div.solid
+        %h2 Dinner on Board
+        %p We&rsquo;d like to make dinner as easy as possible for you. If you&rsquo;d rather not go out, we offer delivery.
+#welcome.beauty

@@ -1,0 +1,30 @@
+<%= form_for menu_section_item, :url => theurl do |msi_f| %>
+  <fieldset>
+    <legend>Item in <%= @menu_section.name %> in <%= @menu_section.menu.name %> for <%= @menu_section.menu.location.restaurant.name %> at <%= @menu_section.menu.location.address %>, <%= @menu_section.menu.location.city %>, <%= @menu_section.menu.location.region %></legend>
+    <ol>
+      <li>
+        <%= msi_f.label :name %>
+        <%= msi_f.text_field :name %>
+      </li>
+      <li>
+        <%= msi_f.label :description %>
+        <%= msi_f.text_area :description, :size => "24x6" %>
+      </li>
+      <li>
+        <%= msi_f.label :price %>
+        <%= msi_f.text_field :price %>
+      </li>
+      <li>
+        <%= msi_f.label :position %>
+        <%= msi_f.text_field :position %>
+      </li>
+      <li class="check">
+        <%= msi_f.label :featured, "Item is featured" %>
+        <%= msi_f.check_box :featured %>
+      </li>
+    </ol>
+  </fieldset>
+  <fieldset>
+    <p><%= msi_f.submit submit_name %></p>
+  </fieldset>
+<% end %>

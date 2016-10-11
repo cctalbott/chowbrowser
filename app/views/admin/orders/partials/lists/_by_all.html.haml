@@ -1,0 +1,11 @@
+- orders.each do |order|
+  %tr{:id => "order_#{h order.id}"}
+    %td.id_col{:align => "center"}= link_to order.id, admin_order_path(order.id), :class => "overlay_trigger"
+    - if Restaurant.find_by_name(order.restaurant_name)
+      %td= link_to truncate(order.restaurant_name), admin_orders_by_restaurant_path(order.purchased_at.year, order.purchased_at.month, order.purchased_at.day, Restaurant.find_by_name(order.restaurant_name).id)
+    - else
+      %td= !order.restaurant_name.blank? ? truncate(order.restaurant_name) : "N/A"
+    %td.customer_col= link_to truncate(order.email), admin_orders_by_customer_path(order.purchased_at.year, order.purchased_at.month, order.purchased_at.day, Order.find_all_by_email(order.email).index_by { |r| r[:email] }.values)
+    %td.date_col= order.purchased_at.strftime("%Y %b %d %a %l:%M%p %Z")
+    %td.price{:align => "right"}= h number_to_currency(order.price)
+    %td #{link_to "Edit", admin_update_order_status_path(order.id)}

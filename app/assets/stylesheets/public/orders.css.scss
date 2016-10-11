@@ -1,0 +1,104 @@
+@import "colors";
+@import "fonts";
+
+h2 {
+  font-size: 1.3em;
+  &#category_summary {color: $highlight_color;}
+}
+h3 {font-size: 1.1em;}
+#content {
+  width: 95%;
+  margin: 0 auto;
+  font-family: Georgia, serif;
+  table {
+    tr {
+      background-color: transparent;
+      &:nth-child(2n+1) {background-color: transparent;}
+      td {
+        padding: 0 5px;
+        &.table_holder {padding: 5px 0;}
+        table {
+          tr:first-child td {border-top: none;}
+        }
+      }
+      &.show_customer td, &.show_restaurant td {
+        background-color: #ccc;
+        table tr.show_order td {background-color: #999;}
+      }
+      &.show_customer td table tr, &.show_restaurant td table tr {
+        td, th {
+          border-top: 1px solid #666;
+          border-bottom: 1px solid #666;
+          border-left: 1px solid #666;
+          border-right: 1px solid #666;
+          &:first-child {border-left: none;}
+          &:last-child {border-right: none;}
+        }
+        th {border-top: none;}
+        &:last-child td {border-bottom: none;}
+      }
+    }
+    .show_order {
+      td ul li table {
+        margin-left: 5%;
+        width: 95%;
+      }
+    }
+  }
+  .wrapper {
+    width: 98%;
+    padding: 0 1% 0 1%;
+  }
+}
+#view_by_inputs {
+  float: left;
+  width: 60%;
+}
+#mainfooter {
+  width: 98%;
+  padding: 0 1% 0 1%;
+  .wrapper {width: 98%;}
+}
+.price, .id_col, .count_col {width: 10%;}
+.customer_col, .date_col {width: 25%;}
+p {
+  &.sum {
+    text-align: right;
+    color: $highlight_color;
+    font-weight: bold;
+    border-bottom: 1px solid $highlight_color;
+    clear: both;
+  }
+  &.downloads {
+    text-align: right;
+    float: right;
+    width: 40%;
+  }
+  &.no_records {
+    clear: both;
+    color: red;
+  }
+  &#delivery_distance {
+    padding: 2px 5px;
+  }
+}
+
+// MEDIA QUERIES
+@media only screen {
+  //480
+  @media (min-width: 480px) {
+    #content {width: 90%;}
+  }
+  //600
+  @media (min-width: 600px) {
+    #content {width: 80%;}
+  }
+  //768
+  @media (min-width: 768px) {
+    #content {width: 70%;}
+  }
+  //992
+  @media (min-width: 992px) {
+    #content {width: 60%;}
+  }
+}

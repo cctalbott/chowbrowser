@@ -1,0 +1,72 @@
+// Place all the styles related to the Restaurants controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "colors";
+@import "fonts";
+
+#content {
+  h1 {
+    font-size: 1.5em;
+    font-family: $highlight_font;
+  }
+  ul {list-style: none;}
+}
+
+#restaurants_list {
+  li {
+    list-style: none outside;
+    width: 300px;
+    margin: 0 0 10px 0;
+    h1 {
+      font-size: 1.13em;
+      a {
+        color: $highlight_color;
+        text-decoration: none;
+        &:hover {color: $highlight_color;}
+      }
+    }
+  }
+}
+
+#cuisine_list {
+  li {
+    float: left;
+    margin-right: 5px;
+    padding-right: 5px;
+    border-right: 1px solid $text_color;
+    &:last-child {
+      margin-right: 0;
+      padding-right: 0;
+      border-right: none;
+    }
+  }
+}
+
+// MEDIA QUERIES
+@media only screen {
+  //480
+  @media (min-width: 480px) {
+    #restaurants_list li {width: 440px;}
+  }
+  //600
+  @media (min-width: 600px) {
+    #restaurants_list li {width: 560px;}
+  }
+  //768
+  @media (min-width: 768px) {
+    #restaurants_list li {
+      float: left;
+      display: block;
+      width: 236px;
+      height: 100px;
+      margin: 0 10px 10px 0;
+      &:nth-child(3n+3) {margin-right: 0;}
+    }
+  }
+  //992
+  @media (min-width: 992px) {
+    #restaurants_list li {
+      width: 300px;
+    }
+  }
+}

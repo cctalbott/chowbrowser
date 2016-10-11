@@ -1,0 +1,84 @@
+- content_for :other_scripts do
+  = javascript_include_tag "public/orders"
+%h1 New Order
+- @cart_total = @cart.tip ? (@cart.plus_tip + @cart.tax) : (@cart.total_price + @cart.tax)
+%h2 Order Total: #{number_to_currency(@cart_total)}
+- unless @cart.delivers
+  %p This order is set for pickup by you the customer. It is not set for delivery.
+= form_for @order, :url => public_orders_path(), :method => "post" do |f|
+  = render "/shared/error_messages", :target => @order
+  %fieldset
+    %legend
+    %ol
+      %li
+        = f.label :notify_method, "Notify Me By"
+        = f.select :notify_method, { "phone call" => "phone call", "text message" => "text message" }
+  %fieldset
+    %legend Personal Info
+    %ol
+      %li
+        = f.label :email
+        = f.email_field :email
+      %li
+        = f.label :phone, "Phone Number"
+        = f.text_field :phone
+  -#
+    - if @cart.delivers
+      %fieldset
+        %legend Delivery Address. Address must be within 10 miles of restaurant.
+        %p{:id => "delivery_distance"} Current distance from restaurant and expected duration of delivery.
+        = hidden_field "restaurant_location", "lat_lon", {:value => "#{@cart.location.lat},#{@cart.location.lon}"}
+        %ol
+          %li
+            = label_tag "previous_delivery", "Select Previous Delivery Address"
+            = select_tag "previous_delivery", options_from_collection_for_select(@delivery_addresses, "da_id", "full_address")
+        %ol
+          = f.fields_for :delivery_address do |daf|
+            %li
+              = daf.label :address
+              = daf.text_field :address
+            %li
+              = daf.label :city
+              = daf.text_field :city
+            %li
+              = daf.label :zip
+              = daf.text_field :zip
+  %fieldset
+    %legend Credit Card Information
+    %ol
+      %li
+        = f.label :card_type
+        = f.select :card_type, [["Visa", "Visa"], ["MasterCard", "master"], ["Discover", "discover"], ["American Express", "american_express"]]
+      %li
+        = f.label :card_number
+        = f.text_field :card_number
+      %li
+        = f.label :card_verification, "Card Verification Value (CVV)"
+        = f.text_field :card_verification
+      %li
+        = f.label :card_expires_on
+        = f.date_select :card_expires_on, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :add_month_numbers => true
+  %fieldset
+    %legend Billing Address
+    %ol
+      = f.fields_for :billing_address do |baf|
+        %li
+          = baf.label :first_name
+          = baf.text_field :first_name
+        %li
+          = baf.label :last_name
+          = baf.text_field :last_name
+        %li
+          = baf.label :address
+          = baf.text_field :address
+        %li
+          = baf.label :city
+          = baf.text_field :city
+        %li
+          = baf.label :state
+          = baf.text_field :state
+        %li
+          = baf.label :zip
+          = baf.text_field :zip
+  %fieldset
+    %p= f.submit "Submit"

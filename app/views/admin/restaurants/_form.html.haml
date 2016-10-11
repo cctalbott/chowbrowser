@@ -1,0 +1,78 @@
+= form_for restaurant, :url => {:action => theaction} do |rest_f|
+  %fieldset
+    %legend Restaurant
+    %ol
+      %li
+        = rest_f.label :name
+        = rest_f.text_field :name
+      %li
+        = rest_f.label :description
+        = rest_f.text_area :description, :size => "24x6"
+      %li
+        = rest_f.label :ordermin, "Minimum order $"
+        = rest_f.text_field :ordermin
+      %li
+        = rest_f.label :ordermax, "Maximum order $"
+        = rest_f.text_field :ordermax
+      /%li
+      /  =# rest_f.label :deliver_fee, "Delivery fee"
+      /  =# rest_f.text_field :deliver_fee
+      %li.check
+        = rest_f.label :featured, "Restaurant is featured"
+        = rest_f.check_box :featured
+        <br />
+      %li
+        = rest_f.label :report_email, "Reporting Email"
+        = rest_f.text_field :report_email
+  - if current_page?(:controller => 'restaurants', :action => 'new')
+    %fieldset
+      %legend Main Location
+      %ol
+        = rest_f.fields_for :locations do |loc_f|
+          %li.check
+            = loc_f.check_box :active
+            = loc_f.label :active, "Location Active"
+            <br />
+          %li
+            = loc_f.label :address
+            = loc_f.text_field :address
+          %li
+            = loc_f.label :city
+            = loc_f.text_field :city
+          %li
+            = loc_f.label :region, "State"
+            = loc_f.select :region, states_array, :include_blank => true
+          %li
+            = loc_f.label :postal_code
+            = loc_f.text_field :postal_code
+          %li
+            = loc_f.label :lat, "Latitude"
+            = loc_f.text_field :lat
+          %li
+            = loc_f.label :lon, "Longitude"
+            = loc_f.text_field :lon
+          %li.check
+            = loc_f.label :recite_order, "Recite order in phone notification"
+            = loc_f.check_box :recite_order
+            <br />
+          %li
+            = loc_f.label :email, "Email"
+            = loc_f.text_field :email
+          %li
+            = loc_f.label :percentage, "Sale Percentage"
+            = loc_f.text_field :percentage
+          = loc_f.fields_for :location_numbers do |builder|
+            = render 'location_number_fields', :f => builder
+          %li.add_fields= link_to_add_fields "Add Phone Numbers", loc_f, :location_numbers
+  %fieldset
+    %legend Cuisines
+    %ol
+      %li
+        %ol
+          - @cuisine_collection.each do |cuisine|
+            %li.check.collection
+              = check_box_tag "restaurant[cuisine_ids][]", cuisine.id, @restaurant.cuisines.include?(cuisine)
+              = label_tag "restaurant_cuisine_ids_", cuisine.name
+          <br /><br />
+  %fieldset
+    %p= rest_f.submit @submit_name

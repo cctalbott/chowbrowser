@@ -1,0 +1,19 @@
+= form_for order, :url => theurl do |f|
+  = render "/shared/error_messages", :target => @order
+  %fieldset
+    %legend
+      Order #{@order.id}
+    %ol
+      %li
+        = f.label :status, "Order Status"
+        = f.select :status, @order_status_collection
+  - if @order.cart.delivers
+    %fieldset
+      %legend Change Driver
+      %ol
+        = f.fields_for :cart do |cart_f|
+          %li
+            = cart_f.label :delivery_driver_id, "Driver"
+            = cart_f.select :delivery_driver_id, @delivery_drivers.map {|dd| [dd.user.email, dd.id]}
+  %fieldset
+    %p= f.submit @submit_name

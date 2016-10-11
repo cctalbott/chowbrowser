@@ -1,0 +1,10 @@
+%nav#adminmenu.wrapper
+  %ul.hmenu.cf
+    %li Admin Menu
+    - if current_user.role?(:admin)
+      %li= link_to "Users", admin_users_path
+      %li= link_to "Sales Offices", admin_sales_offices_path
+      %li= link_to "Restaurants", admin_restaurants_path
+    %li= link_to "Orders", admin_view_orders_path
+    - if current_user.role?(:admin)
+      %li= link_to "Drivers", admin_delivery_drivers_path

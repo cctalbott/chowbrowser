@@ -1,0 +1,52 @@
+%h2 Options In Section
+%table
+  %tr
+    %th{:align => "left"} Name
+    %th{:align => "right"} Price
+  - item_option_section.menu_item_options.each do |menu_item_option|
+    %tr
+      %td #{menu_item_option.name}
+      %td{:align => "right"} #{number_to_currency(menu_item_option.price)}
+= form_for item_option_section, :url => theurl do |ios_f|
+  %fieldset
+    %legend Option Section
+    %ol
+      %li
+        = ios_f.label :name
+        = ios_f.text_field :name
+      %li.check
+        = ios_f.label :allow_multiple, "Allow multiple options to be selected"
+        = ios_f.check_box :allow_multiple
+        %br/
+        %br/
+      %li
+        = ios_f.label :multiple_limit, "Limit amount of multiple options that can be chosen"
+        = ios_f.text_field :multiple_limit
+      %li
+        = ios_f.label :position
+        = ios_f.text_field :position
+  %fieldset
+    %legend Associated Sections
+    %ol
+      %li
+        %ol
+          - @menu_sections_collection.each do |menu_section|
+            %li.check.collection
+              = check_box_tag "item_option_section[menu_section_ids][]", menu_section.id, item_option_section.menu_sections.include?(menu_section)
+              = label_tag "item_option_section_menu_section_ids_", menu_section.name
+          <br /><br />
+  %fieldset
+    %legend Associated Items
+    %ol
+      - @menu_sections_collection.each do |menu_section|
+        %li.list_heading
+          %h3 #{menu_section.name}
+        %li
+          %ol
+            - menu_section.menu_section_items.each do |menu_section_item|
+              %li.check.collection
+                = check_box_tag "item_option_section[menu_section_item_ids][]", menu_section_item.id, item_option_section.menu_section_items.include?(menu_section_item)
+                = label_tag "item_option_section_menu_section_item_ids_", menu_section_item.name
+            <br /><br />
+  %fieldset
+    %p= ios_f.submit submit_name

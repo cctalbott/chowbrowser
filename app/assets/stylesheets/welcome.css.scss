@@ -1,0 +1,182 @@
+// Place all the styles related to the welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "colors";
+@import "fonts";
+
+h1, h2, h3, h4, h5, h6 {font-family: $highlight_font;}
+
+#welcome.beauty {
+  display: none;
+}
+
+#about_us {
+  position: relative;
+  z-index: 1;
+}
+
+#content section.one {
+  &#about_us {
+    div {
+      img {
+        width: 180px;
+        display: block;
+      }
+    }
+  }
+  &#order_now {
+    div {
+      img {
+        width: 106px;
+        display: block;
+      }
+    }
+  }
+}
+
+section#order_now.one {
+  padding: 0;
+  width: 285px;
+  .normal.solid {
+    width: 265px;
+    padding: 10px;
+  }
+}
+
+// MEDIA QUERIES \\
+@media only screen {
+  @media (min-width: 480px) {
+    section#order_now.one {
+      width: 440px;
+      .normal.solid {
+        width: 420px;
+        padding: 10px;
+      }
+    }
+  }
+
+  @media (min-width: 600px) {
+    section#order_now.one {
+      width: 560px;
+      .normal.solid {
+        width: 540px;
+        padding: 10px;
+      }
+    }
+    #content section.one {
+      div {
+        .copy {
+          width: 340px;
+          float: right;
+        }
+      }
+      &#about_us {
+        div {
+          img {
+            width: 180px;
+            display: block;
+            float: left;
+            margin-top: 0px;
+          }
+        }
+      }
+      &#order_now {
+        div {
+          img {
+            width: 106px;
+            display: block;
+            float: left;
+            margin-top: 20px;
+          }
+          .copy {
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    section#order_now.one {
+      width: 728px;
+      .normal.solid {
+        width: 708px;
+        padding: 10px;
+      }
+    }
+    #content section.one {
+      div {
+        .copy {width: 452px;}
+      }
+      &#about_us {
+        div {
+          img {
+            padding: 0 23px;
+            margin-top: 40px;
+          }
+        }
+      }
+      &#order_now {
+        div {
+          img {
+            padding: 0 43px;
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: 992px) {
+    section#order_now.one {
+      width: 940px;
+      .normal.solid {
+        width: 920px;
+        padding: 10px;
+      }
+    }
+    #welcome.beauty {
+      display: block;
+      background: url(image-path('beauty/burger-table.jpg')) -30px -25px no-repeat;
+      position: absolute;
+      z-index: 0;
+      top: 50px;
+      margin: 0 auto;
+      width: 1000px;
+      height: 430px;
+    }
+    #order_now {margin-top: 365px;}
+    #about_us {margin: 10px auto 10px;}
+    #content section.one {
+      div {
+        .copy {
+          width: 566px;
+          float: right;
+        }
+      }
+      &#about_us {
+        div {
+          img {
+            margin-top: 10px;
+            margin-left: 0;
+            margin-right: 0;
+            padding: 0 27px;
+            float: left;
+          }
+        }
+      }
+      &#order_now {
+        div {
+          .copy {float: left;}
+          img {
+            margin-top: 10px;
+            margin-left: 0;
+            margin-right: 0;
+            padding: 0 137px 0 0;
+            float: right;
+          }
+        }
+      }
+    }
+  }
+}

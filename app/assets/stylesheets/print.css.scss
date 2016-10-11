@@ -1,0 +1,18 @@
+@import "colors";
+@import "fonts";
+
+body, html {font: 10pt/14pt Georgia, serif;}
+a {
+  text-decoration: none;
+  color: black;
+}
+table {
+  border-collapse:collapse;
+  border-spacing:0;
+  width: 100%;
+}
+td, th {
+  border: 1px solid #bbb;
+  padding: 5px;
+}
+#mainheader, #mainfooter {display: none;}

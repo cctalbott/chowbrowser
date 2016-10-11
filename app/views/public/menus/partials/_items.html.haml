@@ -1,0 +1,19 @@
+- if item.description && item.description != ""
+  .trigger
+    .name_description
+      %h3
+        - if @menu.is_available?
+          = link_to item.name, new_public_line_item_path(:item => item)
+        - else
+          = item.name
+    %p.price= number_to_currency(item.price)
+  .tooltip
+    %p.description= item.description
+- else
+  .name_description
+    %h3
+      - if @menu.is_available?
+        = link_to item.name, new_public_line_item_path(:item => item)
+      - else
+        = item.name
+  %p.price= number_to_currency(item.price)

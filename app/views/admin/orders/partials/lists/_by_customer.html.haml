@@ -1,0 +1,6 @@
+- monthly_restaurant_orders_customers(orders).each do |customer, orders|
+  %tr.category_row
+    %td= link_to truncate(customer, :length => 50), admin_orders_by_customer_path(@year, @month, @day, Order.find_all_by_email(customer).index_by { |r| r[:email] }.values)
+    %td.count_col{:align => "center"}= month_count(orders)
+    %td.price{:align => "right"}= number_to_currency(monthly_total(orders))
+    %td.price{:align => "right"}= number_to_currency(month_average(orders))

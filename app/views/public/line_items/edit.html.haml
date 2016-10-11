@@ -1,0 +1,5 @@
+%h1
+  = @item.name
+  = number_to_currency(@item.price)
+%p= @item.description
+= render :partial => "form", :locals => {:line_item => @line_item, :the_url => public_line_item_path(:id => @line_item.id, :item => @item.id, :method => "put")}

@@ -1,0 +1,17 @@
+%span.fields
+  %li
+    = f.label :phone, "Phone Number"
+    = f.text_field :phone
+  %li
+    = f.label :send_digits_ext, "Extension/Extra Phone Digits"
+    = f.text_field :send_digits_ext
+  %li.check
+    = f.label :main_number, "Is Main Number?"
+    = f.check_box :main_number
+    <br />
+  %li.check
+    = f.label :text_number, "Is Text Number?"
+    = f.check_box :text_number
+    <br />
+  %li
+    = link_to_remove_fields "remove phone number", f

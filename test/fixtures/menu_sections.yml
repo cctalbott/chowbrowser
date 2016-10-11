@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+#one:
+#  name: MyString
+#  menu:
+#
+#two:
+#  name: MyString
+#  menu:
+#
+
+one:
+  menu: one
+  name: "BBQ"
+  description: "BBQ'd meats."

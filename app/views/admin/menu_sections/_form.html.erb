@@ -1,0 +1,22 @@
+<%= form_for menu_section, :url => theurl do |ms_f| %>
+  <fieldset>
+    <legend>Section in <%=h @menu.name %> for <%=h @menu.location.restaurant.name %> at <%=h @menu.location.address %>, <%=h @menu.location.city %>, <%=h @menu.location.region %></legend>
+    <ol>
+      <li>
+        <%= ms_f.label :name %>
+        <%= ms_f.text_field :name %>
+      </li>
+      <li>
+        <%= ms_f.label :description %>
+        <%= ms_f.text_area :description %>
+      </li>
+      <li>
+        <%= ms_f.label :position %>
+        <%= ms_f.text_field :position %>
+      </li>
+    </ol>
+  </fieldset>
+  <fieldset> 
+    <p><%= ms_f.submit submit_name %></p> 
+  </fieldset>
+<% end %>

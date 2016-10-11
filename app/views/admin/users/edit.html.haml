@@ -1,0 +1,8 @@
+%h1
+  Edit User: #{@user.email}
+= render :partial => "form", :locals => { :url => admin_user_path(@user), :html => { :method => :put }, :submit_title => "Update" }
+- unless @user.email == "redacted@domain.com"
+  %h3 Cancel my account
+  %p
+    Unhappy? #{link_to "Cancel my account", registration_path(@user), :confirm => "Are you sure?", :method => :delete}.
+= link_to "Back", :back

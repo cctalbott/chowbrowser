@@ -1,0 +1,59 @@
+= render :partial => "admin/orders/partials/for_header"
+- if @order
+  %h1
+    Order #{@order.id}
+  %ul
+    %li
+      %b Customer:
+      #{@order.email}
+    %li
+      %b Placed:
+      #{@order.created_at.strftime('%a, %d %b %Y %I:%S%p %Z')}
+    %li
+      %b Restaurant:
+      #{@order.restaurant_name}
+    - if @order.location_address
+      %li
+        %b Location:
+        #{@order.location_address}
+    %li
+      %p
+        Download: #{link_to "PDF", admin_order_path(@order.id, :format => :pdf)} | #{link_to "Print", admin_order_path(@order.id)}
+    %li
+      %table
+        %tr
+          %th{:align => "left"} Item
+          %th.price{:align => "right"} Price
+        - @order.cart.line_items.each do |line_item|
+          %tr
+            %td
+              #{line_item.name}
+              <br />
+              - if line_item.line_item_options && line_item.line_item_options.count > 0
+                Options:
+                %ul
+                  - line_item.line_item_options.each do |lio|
+                    %li #{lio.qty} #{lio.menu_item_option.name}
+            %td.price{:align => "right"} #{number_to_currency(line_item_total(line_item))}
+          - if line_item.instructions
+            %tr
+              %td{:colspan => "2"} #{line_item.instructions}
+    %li{:style => "text-align: right;"}
+      %b Sub Total:
+      #{number_to_currency(sub_total(@order))}
+    %li{:style => "text-align: right;"}
+      %b Tax:
+      #{number_to_currency(tax(@order))}
+    - if @order.cart.delivers && @order.cart.tip
+      %li{:style => "text-align: right;"}
+        %b Tip:
+        #{number_to_currency(tip(@order))}
+    %li{:style => "text-align: right;"}
+      %b Grand Total:
+      #{number_to_currency(total(@order))}
+  - if @order.cart.delivers
+    %p
+      #{@order.billing_address.first_name} #{@order.billing_address.last_name} at #{@order.deliver_address}
+- else
+  %p
+    No order exists with id #{params[:id]}

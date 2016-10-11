@@ -1,0 +1,21 @@
+- content_for :other_styles do
+  = stylesheet_link_tag 'public/restaurants'
+%section.one
+  %div
+    %h1 Appetizing and Accomodating
+    %p ChowBrowser values convenience. Not up for going out? We&rsquo;ll deliver the dining out experience to you. When we are offering delivery you&rsquo;ll have the option for your order to be delivered at the small additional fee of $2.99.
+    %p Delivery orders are usually completed within 30 minutes to an hour. It generally takes around 20 minutes to prepare a meal and 10 to 20 minutes to deliver it from the restaurant to you. Of course, this can vary depending on traffic conditions and the distance from the restaurant to you. A more approximate estimate is displayed to you upon completion of your order.
+    %p Delivery is limited to a 10 mile radius surrounding a restaurant to ensure your food reaches you fresh and at the intended temperature.
+%h2{:style => "margin:35px 0 0;font-family:'Salsa',serif;color:#fff;text-align:center;padding:10px;background-color:#002f5c;"} Now Offering Delivery From The Following
+%ul#restaurants_list.cf{:style => "margin-top: 35px;"}
+  - for restaurant in @restaurants do
+    - for location in restaurant.locations do
+      - if location.menus.exists?
+        %li
+          - current_menu = which_menu?(location.menus)
+          - if current_menu.nil?
+            - current_menu = location.menus.order("position ASC, created_at DESC").first
+          %h1= link_to restaurant.name, public_menu_path(current_menu.id)
+          %p
+            = location.address
+            , #{location.city}, #{location.region} #{location.postal_code}

@@ -1,0 +1,11 @@
+- content_for :crumbs do
+  %ul
+    %li
+      = link_to "Admin Home", admin_path
+      \&raquo; #{link_to "Users", admin_users_path}
+%h1
+  User: #{h @user.email}
+%p
+  = link_to "Edit User", edit_admin_user_path(@user)
+  - unless @user.email == "redacted@domain.com"
+    | #{link_to "Destroy User", admin_user_path(@user), :method => :delete, :confirm => "Are you sure? This cannot be undone."}

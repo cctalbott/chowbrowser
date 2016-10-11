@@ -1,0 +1,3 @@
+%h1= "Edit Sales Office: #{@sales_office.name}"
+= render :partial => "form", :locals => { :url => admin_sales_office_path(@sales_office), :html => { :method => :put }, :submit_title => "Edit Sales Office" }
+= link_to "Back", :back

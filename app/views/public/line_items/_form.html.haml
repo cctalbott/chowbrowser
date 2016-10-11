@@ -1,0 +1,50 @@
+= form_for line_item, :url => the_url do |f|
+  - if @item_option_sections.exists?
+    - x = 0
+    = f.fields_for :line_item_options do |lio_f|
+      - @item_option_sections.each do |item_option_section|
+        %fieldset
+          - if item_option_section.allow_multiple
+            %legend
+              = item_option_section.name
+              - if item_option_section.multiple_limit
+                %p Choose up to #{item_option_section.multiple_limit} options.
+          - else
+            %legend
+              = item_option_section.name
+              (Required)
+          %ol
+            %li
+              %ol
+                - item_option_section.menu_item_options.each do |option|
+                  %li.check.collection.cf{:style => "min-height: 50px;"}
+                    - if item_option_section.allow_multiple
+                      - x = x + 1
+                      = check_box_tag "line_item[line_item_options_attributes][#{x}][menu_item_option_id]", option.id
+                      = label_tag "line_item_line_item_options_attributes_#{x}_menu_item_option_id", "#{option.name} #{number_to_currency(option.price)}"
+                      /=# lio_f.label :qty, "Quantity"
+                      /=# lio_f.text_field :qty
+                    - else
+                      /=# lio_f.radio_button :menu_item_option_id, option.id
+                      = radio_button_tag "line_item[line_item_options_attributes][#{x}][menu_item_option_id]", option.id
+                      = label_tag "line_item[line_item_options_attributes][#{x}][menu_item_option_id]", "#{option.name} #{number_to_currency(option.price)}"
+                /<br /><br />
+                /-# unless item_option_section.allow_multiple
+                /  %li
+                /    = lio_f.label :qty, "Quantity"
+                /    = lio_f.text_field :qty
+          - if item_option_section.allow_multiple && item_option_section.multiple_limit
+            :javascript
+              $("input[type=checkbox]").click(function() {
+                var bol = $("input[type=checkbox]:checked").length >= "#{item_option_section.multiple_limit}";
+                $("input[type=checkbox]").not(":checked").attr("disabled",bol);
+              });
+        - x = x + 1
+  %fieldset
+    %ol
+      %li
+        = f.label :instructions, "Special Requests (additional charges may apply)"
+        %br
+        = f.text_area :instructions, :size => "40x5"
+  %fieldset
+    = f.submit "Add item"

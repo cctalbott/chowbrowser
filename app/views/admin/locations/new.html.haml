@@ -1,0 +1,3 @@
+%h1
+  Add Location for #{@restaurant.name}
+= render :partial => "form", :locals => {:location => @location, :theurl => admin_restaurant_create_location_path(@restaurant)}

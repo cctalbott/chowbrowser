@@ -1,0 +1,19 @@
+- content_for :crumbs do
+  %ul
+    %li= link_to "Admin Home", admin_path
+%h1 Printers
+%div= link_to('New Printer', new_admin_printer_path)
+%table
+  %tr
+    %th{:align => "left"} Model Name
+    %th{:align => "left"} Service Number
+    %th{:align => "left"} Email
+    %th{:align => "left"} Location
+    %th{:align => "right"} &nbsp;
+  - @printers.each do |printer|
+    %tr
+      %td= link_to printer.model_name, admin_printer_path(printer)
+      %td= printer.service_no
+      %td= printer.email
+      %td #{printer.location.restaurant_name} #{printer.location.full_address}
+      %td{:align => "right"}= link_to "edit", edit_admin_printer_path(printer)

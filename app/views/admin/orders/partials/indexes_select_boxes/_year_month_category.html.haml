@@ -1,0 +1,16 @@
+- if current_user.role? :admin
+  %p= link_to "Batch Reports", admin_batches_path()
+%p
+  = h label :order, :year
+  = h collection_select(:order, :year, @purchased_collection, :purchased_at_year, :purchased_at_year, :prompt => "all", @year == "all" ? {} : :selected => @year)
+  |
+  - unless @year == "all"
+    = h label :order, :month
+    = h collection_select(:order, :month, @purchased_month_collection, :purchased_at_month, :month_to_name, :prompt => "all", @month == "all" ? {} : :selected => @month)
+    |
+    - unless @month == "all"
+      = h label :order, :day
+      = h collection_select(:order, :day, @purchased_day_collection, :purchased_at_day, :purchased_at_day, :prompt => "all", @day == "all" ? {} : :selected => @day)
+      |
+  = h label :order, :category, "View By"
+  = h collection_select(:order, :category, @category_collection, :first, :last, :selected => @category)

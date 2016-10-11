@@ -1,0 +1,12 @@
+- content_for :crumbs do
+  %ul
+    %li
+      = link_to("Admin Home", admin_path)
+      &raquo;
+      = link_to("Cuisines", admin_cuisines_path)
+%h1= "Cuisine: #{@cuisine.name}"
+%p
+  = link_to "Edit Cuisine", edit_admin_cuisine_path(@cuisine)
+  |
+  = link_to "Destroy Cuisine", admin_cuisine_path(@cuisine), :method => :delete, :confirm => "Are you sure? This cannot be undone."
+= link_to "Back", :back

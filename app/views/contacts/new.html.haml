@@ -1,0 +1,3 @@
+%h1 New Inquiry
+= render :partial => "form", :locals => { :url => contacts_path, :html => { :method => :post }, :submit_title => "Send Inquiry" }
+= link_to "Back", :back

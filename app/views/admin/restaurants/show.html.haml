@@ -1,0 +1,21 @@
+- content_for :crumbs do
+  %ul
+    %li
+      = link_to "Admin Home", admin_path
+      \&raquo; #{link_to "Restaurants", admin_restaurants_path}
+- if @restaurant.featured
+  %p Restaurant is featured.
+%h2
+  = @restaurant.name
+  Locations
+%p= link_to "Add location", admin_restaurant_new_location_path(@restaurant)
+%table
+  %tr
+    %th Location
+    %th &nbsp;
+  - for location in @restaurant.locations do
+    %tr
+      %td= link_to "#{location.address}, #{location.city}, #{location.region} #{location.postal_code}", admin_location_path(location)
+      %td{:align => "right"}
+        = link_to "Edit location", edit_admin_location_path(location)
+        | #{link_to "Destroy location", admin_location_path(location), :method => :delete, :confirm => "Are you sure? This will delete the location and all it's menus."}

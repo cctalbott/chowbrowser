@@ -1,0 +1,81 @@
+= form_for location, :url => theurl do |loc_f|
+  = render "/shared/error_messages", :target => @location
+  %fieldset
+    %legend
+      Location for #{@restaurant.name}
+    %ol
+      %li.check
+        = loc_f.label :active, "Location Active"
+        = loc_f.check_box :active
+        <br />
+      %li
+        = loc_f.label :address
+        = loc_f.text_field :address
+      %li
+        = loc_f.label :city
+        = loc_f.text_field :city
+      %li
+        = loc_f.label :region, "State"
+        = loc_f.select :region, states_array, :include_blank => true
+      %li
+        = loc_f.label :postal_code
+        = loc_f.text_field :postal_code
+      %li
+        = loc_f.label :lat, "Latitude"
+        = loc_f.text_field :lat
+      %li
+        = loc_f.label :lon, "Longitude"
+        = loc_f.text_field :lon
+      %li
+        = loc_f.label :email, "Email"
+        = loc_f.text_field :email
+      %li
+        = loc_f.label :percentage, "Sale Percentage"
+        = loc_f.text_field :percentage
+      %li.check
+        = loc_f.label :recite_order, "Recite order in phone notification"
+        = loc_f.check_box :recite_order
+        <br />
+  %fieldset
+    %legend Phone Numbers
+    %ol
+      = loc_f.fields_for :location_numbers do |builder|
+        = render 'location_number_fields', :f => builder
+      %li.add_fields= link_to_add_fields "Add Phone Numbers", loc_f, :location_numbers
+  %fieldset
+    %legend Delivery
+    %ol
+      = loc_f.fields_for :delivery do |builder|
+        = render 'delivery_fields', :f => builder
+      %li.add_fields= link_to_add_fields "Add Restaurant Delivery", loc_f, :delivery
+  %fieldset
+    %legend Hours
+    %ol
+      = loc_f.fields_for :restaurant_hours do |builder|
+        = render 'restaurant_hour_fields', :f => builder
+      %li.add_fields= link_to_add_fields "Add Restaurant Hours", loc_f, :restaurant_hours
+  %fieldset
+    %legend Holidays
+    %ol
+      = loc_f.fields_for :holidays do |builder|
+        = render 'holiday_fields', :f => builder
+      %li.add_fields= link_to_add_fields "Add Holidays", loc_f, :holidays
+  - if current_user.role? :admin
+    %fieldset
+      %legend Sales Person
+      %ol
+        %li
+          = loc_f.label :sales_person
+          = loc_f.select :sales_person_id, @sales_person_collection, {:prompt => "Choose sales person"}
+    -#%fieldset
+    -#  %legend Users
+    -#  %ol
+    -#    %li
+    -#      %ol
+    -#        - @user_collection.each do |user|
+    -#          %li.check.collection
+    -#            = check_box_tag "location[user_ids][]", user.id, @location.users.include?(user)
+    -#            = user.email
+    -#        %br
+  %fieldset
+    %p= loc_f.submit @submit_name

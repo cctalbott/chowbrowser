@@ -1,0 +1,236 @@
+// Place all the styles related to the Menus controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "colors";
+@import "fonts";
+
+#content {
+  h1 {font-size: 1.5em;}
+  h1, h2 {font-family: $highlight_font;}
+  ul {list-style: none;}
+}
+#alt_location_menus {
+  ul li {
+    list-style: none outside;
+    float: left;
+    margin: 0 5px 0 0;
+    padding-right: 5px;
+    border-right: 1px solid $text_color;
+    &:last-child {
+      border-right: none;
+      padding-right: 0;
+      margin-right: 0;
+    }
+  }
+}
+#menu_status {
+  margin-bottom: 10px;
+  p {
+    font-style: italic;
+    font-size: .85em;
+  }
+  .available { color: green; }
+  .not_available { color: red; }
+}
+#restaurant_menu {
+  ul li ul li {
+    margin: 0 0 10px;
+    padding: 5px;
+    &:nth-child(2n+1) {
+      background-color: #eee;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+    }
+    &.featured_item {border: 1px solid $highlight_color;}
+  }
+  h1 {
+    margin-bottom: .8em;
+    span {font-size: .7em;}
+  }
+  h2 {
+    font-size: 1.13em;
+    border-bottom: 1px solid $text_color;
+    margin-bottom: 10px;
+  }
+  h3 {font-weight: normal;}
+  p {margin-bottom: 0;}
+  .name_description {
+    width: 220px;
+    float: left;
+    margin-right: 10px;
+    a {text-decoration: none;}
+  }
+  .price {
+    width: 60px;
+    float: right;
+    text-align: right;
+  }
+  .item_admin_links {clear: both;}
+}
+#sidebar {
+  aside {
+    section {
+      font-size: .9em;
+      p {margin-bottom: 0;}
+      em {
+        margin: 10px 0 5px;
+        font-weight: bold;
+        display: block;
+      }
+    }
+  }
+  #current_cart {
+    section {
+      .current_order {
+        padding: 10px;
+        .qty {
+          cursor: pointer;
+          a {text-decoration: none;}
+        }
+      }
+      #checkout_link, #show_cart {
+        display: inline-block;
+        text-decoration: none;
+        text-transform: lowercase;
+        font-size: .9em;
+        padding: 2px 5px;
+        border: 1px solid $highlight_color;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        -moz-box-shadow: 1px 1px 1px #666;
+      	-webkit-box-shadow: 1px 1px 1px #666;
+      	box-shadow: 1px 1px 1px #666;
+      	&:hover {
+      	  border: 1px solid #ccc;
+          background-color: $highlight_color;
+          color: $base_color;
+      	  -moz-box-shadow: none;
+        	-webkit-box-shadow: none;
+        	box-shadow: none;
+      	}
+      }
+      #checkout_link {margin: 2px 0 2px;}
+      #show_cart {margin: 7px 0 2px;}
+    }
+  }
+}
+
+// TOOLTIP
+.tooltip {
+  display: block;
+  color: $text_color;
+	padding: 0px;
+	font-size: .85em;
+	width: 270px;
+	clear: both;
+}
+
+// CURRENT ORDER
+#content .current_order {
+  table {
+    tr {
+      background-color: #fff;
+      td, th {
+        border: none;
+        &:first-child {width: 50px;}
+        &:last-child {width: 75px;}
+      }
+      &.odd {
+        td {background-color: #e5e5e5;}
+      }
+    }
+  }
+}
+
+// MEDIA QUERIES
+@media only screen {
+  //480
+  @media (min-width: 480px) {
+    #restaurant_menu {
+      .name_description {width: 360px;}
+      ul li ul.menu_section_featured li {
+        width: 430px;
+        h3 {width: 370px;}
+      }
+    }
+    .tooltip {width: 420px;}
+  }
+  //600
+  @media (min-width: 600px) {
+    #restaurant_menu {
+      ul li ul li {
+        width: 265px;
+        float: left;
+        &:nth-child(2n+1) {
+          margin-right: 10px;
+          clear: left;
+          background: none;
+        }
+        &:nth-child(1), &:nth-child(4n+4), &:nth-child(5), &:nth-child(4n+9) {
+          background-color: #eee;
+          -moz-border-radius: 5px;
+          -webkit-border-radius: 5px;
+          border-radius: 5px;
+        }
+      }
+      .name_description {width: 195px;}
+      ul li ul.menu_section_featured li {
+        width: 550px;
+        background-color: $base_color;
+        h3 {width: 490px;}
+      }
+    }
+    .tooltip {
+      clear: none;
+      background-color: $highlight_color;
+      color: $base_color;
+      padding: 5px;
+      width: 252px;
+      display: none;
+      border: 1px solid #bbb;
+    	-moz-box-shadow: 2px 2px 11px #666;
+    	-webkit-box-shadow: 2px 2px 11px #666;
+    	box-shadow: 2px 2px 11px #666;
+    }
+  }
+  //768
+  @media (min-width: 768px) {
+    #sidebar {
+      width: 30%;
+      float: right;
+      margin-top: 0px;
+    }
+    #alt_location_menus {
+      margin-left: 0%;
+      width: 65%;
+    }
+    #restaurant_menu {
+      width: 67%;
+      padding-right: 1%;
+      margin-left: 0%;
+      float: left;
+      ul li ul li {
+        width: 47%;
+        padding: 1%;
+        &:nth-child(2n+1) {margin-right: 2%;}
+      }
+      .name_description {
+        width: 75%;
+        margin-right: 0;
+      }
+      .price {width: 25%;}
+      ul li ul.menu_section_featured li {
+        h3 {width: 75%;}
+        width: 98%;
+        padding: 1%;
+      }
+    }
+    .tooltip {width: 333px;}
+  }
+  //992
+  @media (min-width: 992px) {
+    .tooltip {width: 430px;}
+  }
+}

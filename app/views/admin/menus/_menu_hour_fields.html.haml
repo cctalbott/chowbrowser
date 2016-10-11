@@ -1,0 +1,13 @@
+%span.fields
+  %li
+    = f.label :menu_start_hour, "Menu begins"
+    = f.select :menu_start_hour, 0..23, {:prompt => "Choose hour"}
+    \:
+    \#{f.select :menu_start_min, 00..59}
+  %li
+    = f.label :menu_end_hour, "Menu ends"
+    = f.select :menu_end_hour, 0..23, {:prompt => "Choose hour"}
+    \:
+    \#{f.select :menu_end_min, 00..59}
+  %li
+    = link_to_remove_fields "remove", f

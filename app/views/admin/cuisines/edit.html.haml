@@ -1,0 +1,3 @@
+%h1= "Edit Cuisine: #{@cuisine.name}"
+= render :partial => "form", :locals => { :url => admin_cuisine_path(@cuisine), :html => { :method => :put }, :submit_title => "Edit Cuisine" }
+= link_to "Back", :back

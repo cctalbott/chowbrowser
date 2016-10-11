@@ -1,0 +1,51 @@
+= h render :partial => "public/orders/partials/for_header"
+- if @order
+  %h1
+    Order #{@order.id}
+  %ul
+    %li
+      %b Customer:
+      = h @order.email
+    %li
+      %b Placed:
+      = h "#{@order.created_at.strftime('%a, %d %b %Y %I:%S%p %Z')}"
+    %li
+      %b Restaurant:
+      = h @order.restaurant_name
+    %li
+      %b Location:
+      = h "#{@order.location_address}"
+    %li
+      %p
+        Download: #{h link_to "PDF", public_order_path(@order.id, :format => :pdf)} | #{h link_to "Print", public_order_path(@order.id)}
+  %li
+    %table
+      %tr
+        %th{:align => "left"} Item
+        %th.price{:align => "right"} Price
+      - @order.cart.line_items.each do |line_item|
+        %tr
+          %td
+            = h line_item.menu_section_item.name
+            %br/
+            - if line_item.line_item_options && line_item.line_item_options.count > 0
+              Options:
+              %ul
+                - line_item.line_item_options.each do |lio|
+                  %li #{lio.qty} #{lio.menu_item_option.name}
+          %td.price{:align => "right"}= h number_to_currency(line_item_total(line_item))
+        - if line_item.instructions
+          %tr
+            %td{:colspan => "2"} #{line_item.instructions}
+  %li{:style => "text-align: right;"}
+    %b Sub Total:
+    = h number_to_currency(sub_total(@order))
+  %li{:style => "text-align: right;"}
+    %b Tax:
+    = h number_to_currency(tax(@order))
+  %li{:style => "text-align: right;"}
+    %b Grand Total:
+    = h number_to_currency(total(@order))
+- else
+  %p
+    No order exists with id #{h params[:id]}

@@ -1,0 +1,3 @@
+%h1
+  Edit #{h @menu.name} for #{h @menu.location.restaurant.name} at #{h @menu.location.address}, #{h @menu.location.city}, #{h @menu.location.region}
+= render :partial => "form", :locals => {:menu => @menu, :theurl => admin_menu_path(@menu, :method => "post"), :submit_name => "Update menu"}

@@ -1,0 +1,26 @@
+account_types:
+user_types:
+roles:
+  admin:
+    can:
+      manage: 
+      - all
+  user:
+    can:
+      read:
+      - Location 
+      - Restaurant 
+      - Menu
+      - MenuSection 
+      - MenuSectionItem
+  guest:
+    can:
+      read: 
+      - Location 
+      - Restaurant 
+      - Menu
+      - MenuSection 
+      - MenuSectionItem
+role_groups:
+licenses:
+users:

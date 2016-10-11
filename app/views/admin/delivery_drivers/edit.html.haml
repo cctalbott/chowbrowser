@@ -1,0 +1,3 @@
+%h1= "Edit Delivery Driver: #{@delivery_driver.driver_title}"
+= render :partial => "form", :locals => { :url => admin_delivery_driver_path(@delivery_driver), :html => { :method => :put }, :submit_title => "Edit Delivery Driver" }
+= link_to "Back", :back

@@ -1,0 +1,19 @@
+= form_for menu, :url => theurl do |menu_f|
+  %fieldset
+    %legend
+      Menu for #{menu.location.restaurant.name}
+    %ol
+      %li
+        = menu_f.label :name
+        = menu_f.text_field :name
+      %li
+        = menu_f.label :position, "Position"
+        = menu_f.text_field :position
+  %fieldset
+    %legend Menu hours
+    %ol
+      = menu_f.fields_for :menu_hours do |builder|
+        = render 'menu_hour_fields', :f => builder
+      %li.add_fields= link_to_add_fields "Add Menu Hours", menu_f, :menu_hours
+  %fieldset
+    %p= menu_f.submit submit_name

@@ -1,0 +1,14 @@
+%p
+  Current subtotal: #{number_to_currency(@cart.total_price)}
+= form_for @cart, :url => public_cart_update_tip_path(), :method => "post" do |f|
+  = render "/shared/error_messages", :target => @cart
+  %fieldset
+    %legend
+    %ol
+      - if @cart.delivers
+        %li
+          = f.label :tip, "Add a tip"
+          = f.text_field :tip
+  %fieldset
+    %p= f.submit "Add tip"
+%p= link_to "Tip with cash >>", new_public_order_path

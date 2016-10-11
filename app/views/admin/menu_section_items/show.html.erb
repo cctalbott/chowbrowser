@@ -1,0 +1,50 @@
+<% content_for :crumbs do %>
+  <ul>
+    <li><%= link_to "Admin Home", admin_path %> &raquo; <%= link_to "Restaurants", admin_restaurants_path %> &raquo; <%= link_to "Restaurant", admin_restaurant_path(@item.menu_section.menu.location.restaurant) %> &raquo; <%= link_to "Location", admin_location_path(@item.menu_section.menu.location) %> &raquo; <%= link_to "Menu", admin_menu_path(@item.menu_section.menu) %></li>
+  </ul>
+<% end %>
+
+<div class="name_description">
+  <h3><%= @item.name %></h3>
+  <p><%= @item.description %></p>
+</div>
+<p class="price"><%= number_to_currency(@item.price) %></p>
+
+<% if @item.featured %>
+  <p>Item is featured.</p>
+<% end %>
+
+<p><%= link_to "Edit item", edit_admin_menu_section_item_path(@item) %> | <%= link_to "Destroy item", admin_menu_section_item_path(@item), :method => "delete", :confirm => "Are you sure? This will remove the item, all of it's option sections and all of it's options." %></p>
+
+<% if @item.item_option_sections %>
+  <table>
+    <tr>
+      <th>Section</th>
+      <td align="right"><%= link_to "Add option section", admin_menu_section_item_new_item_option_section_path(@item.id) %></td>
+    </tr>
+    <% for section in @item.item_option_sections do %>
+      <tr>
+        <td><h4><%= section.name %></h4></td>
+        <td align="right"><p><%= link_to "Edit", edit_admin_item_option_section_path(section) %> | <%= link_to "Add option", admin_item_option_section_new_menu_item_option_path(section.id) %> | <%= link_to "Destroy", admin_item_option_section_path(section), :method => "delete", :confirm => "Are you sure? This will destroy the option section and all options within." %></p></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <table>
+            <tr>
+              <th>Option</th>
+              <th>Price</th>
+              <th>&nbsp;</th>
+            </tr>
+            <% for option in section.menu_item_options do %>
+              <tr>
+                <td><%= option.name %></td>
+                <td align="right"><%= number_to_currency(option.price) %></td>
+                <td align="right"><%= link_to "Edit", edit_admin_menu_item_option_path(option) %> | <%= link_to "Destroy", admin_menu_item_option_path(option), :method => "delete", :confirm => "Are you sure you'd like to permanently remove this option?" %></td>
+              </tr>
+            <% end %>
+          </table>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

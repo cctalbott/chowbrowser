@@ -1,0 +1,2 @@
+<h1>Add Menu Section in <%=h @menu.name %> for <%=h @menu.location.restaurant.name %> at <%=h @menu.location.address %>, <%=h @menu.location.city %>, <%=h @menu.location.region %></h1>
+<%= render :partial => "form", :locals => {:menu_section => @menu_section, :theurl => admin_menu_create_menu_section_path(@menu), :submit_name => "Create Section"} %>

@@ -1,0 +1,15 @@
+= form_for @cuisine, :url => url, :html => html do |f|
+  - if @cuisine.errors.any?
+    #error_explanation
+      %h2= pluralize(@cuisine.errors.count, "error") + " prohibited this user from being saved:"
+      %ul
+        - @cuisine.errors.full_messages.each do |msg|
+          %li= msg
+  %fieldset
+    %legend= @cuisine.name ? "Cuisine " + @cuisine.name : "Cuisine"
+    %ol
+      %li
+        = f.label :name
+        = f.text_field :name
+  %fieldset
+    .actions= f.submit submit_title

@@ -1,0 +1,2 @@
+%h1 Update Order #{@order.id}
+= render :partial => "order_status_form", :locals => {:order => @order, :theurl => admin_order_path(@order, :method => "put"), :submit_name => "Update status"}

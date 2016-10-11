@@ -1,0 +1,6 @@
+- monthly_orders_restaurants(orders).each do |restaurant, orders|
+  %tr.category_row
+    %td= h link_to truncate(restaurant, :length => 50), public_orders_by_restaurant_path(@year, @month, @day, Restaurant.find_by_name(restaurant).id)
+    %td.count_col{:align => "center"}= h month_count(orders)
+    -#%td.price{:align => "right"}= h number_to_currency(monthly_total(orders))
+    -#%td.price{:align => "right"}= h number_to_currency(month_average(orders))

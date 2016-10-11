@@ -1,0 +1,47 @@
+- content_for :crumbs do
+  %ul
+    %li
+      = link_to "Admin Home", admin_path
+      \&raquo; #{link_to "Restaurants", admin_restaurants_path} &raquo; #{link_to "Restaurant", admin_restaurant_path(@menu.location.restaurant)} &raquo; #{link_to "Location", admin_location_path(@menu.location)}
+%h1= h @menu.location.restaurant.name
+%h2
+  = h @menu.location.address
+  , #{h @menu.location.city}, #{h @menu.location.region}
+%h3= h @menu.name
+%h4= h (@menu.menu_hours.count > 0) ? served_from(@menu.menu_hours) : "Served daily"
+%p #{link_to "Add section", admin_menu_new_menu_section_path(@menu)} | #{link_to "View option sections", admin_item_option_sections_by_menu_path(:menu_id => @menu.id)}
+%table
+  %tr
+    %th Section
+    %th Position
+    %th &nbsp;
+  - for menu_section in @menu_sections do
+    %tr
+      %td
+        %h2= h menu_section.name
+      %td= menu_section.position
+      %td{:align => "right"}
+        %p
+          = link_to "Add item", admin_menu_section_new_menu_section_item_path(menu_section)
+          | #{link_to "Edit section", edit_admin_menu_section_path(menu_section)} | #{link_to "Destroy section", admin_menu_section_path(menu_section), :method => "delete", :confirm => "Are you sure? This will remove the section and all of it's items."}
+    %tr
+      %td{:colspan => "3"}
+        %table
+          %tr
+            %th Item
+            %th Price
+            %th Position
+            %th Featured
+            %th &nbsp;
+          - for item in menu_section.menu_section_items.order("position ASC, created_at ASC") do
+            %tr
+              %td= link_to item.name, admin_menu_section_item_path(item)
+              %td= number_to_currency(item.price.to_f)
+              %td= item.position
+              - if item.featured
+                %td yes
+              - else
+                %td no
+              %td{:align => "right"}
+                = link_to "Edit", edit_admin_menu_section_item_path(item)
+                | #{link_to "Destroy", admin_menu_section_item_path(item), :method => "delete", :confirm => "Are you sure? This will remove the item and all of it's options."}

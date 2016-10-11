@@ -1,0 +1,3 @@
+%h1
+  Add Menu for #{@menu.location.restaurant.name}
+= render :partial => "form", :locals => {:menu => @menu, :theurl => admin_location_create_menu_path(@menu.location), :submit_name => "Create menu"}

@@ -1,0 +1,18 @@
+!!!
+%html
+  %head
+    %title= h (yield(:title) || "Takeout App")
+    /= stylesheet_link_tag    "application"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    /= google_analytics_js
+  %body
+    #container
+      - if notice
+        %p.notice= notice
+      - if alert
+        %p.alert= alert
+      #content
+        .wrapper.cf
+          = yield
+      %div

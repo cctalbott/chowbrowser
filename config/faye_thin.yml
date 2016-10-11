@@ -1,0 +1,7 @@
+---
+port: 4443
+ssl: true
+ssl_key_file: /etc/ssl/localcerts/chowbrowser.key
+ssl_cert_file: /etc/ssl/localcerts/chowbrowser.pem
+environment: production
+rackup: faye.ru

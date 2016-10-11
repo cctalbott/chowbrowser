@@ -1,0 +1,11 @@
+- content_for :crumbs do
+  %ul
+    %li= link_to "Admin Home", admin_path
+%p= link_to "Create User", new_admin_user_path
+%h1 Users
+%table
+  %tr
+    %th{:align => "left"} Email
+  - for user in @users do
+    %tr
+      %td= link_to user.email, admin_user_path(user)

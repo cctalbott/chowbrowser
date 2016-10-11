@@ -1,0 +1,10 @@
+Orders on <%= @orders.first.purchased_at.strftime("%Y %b %d %a %l:%M%p %Z") %>
+from <%= @orders.first.restaurant.name %>
+==============================================================================
+<%= @orders.each do |order| %>
+Order Total: <%= number_to_currency(order.base_total) %>
+Restaurant Rate: <%= order.location.percentage %>
+Owed to Restaurant: <%= number_to_currency(order.restaurant_deposit) %>
+------------------------------------------------------------------------------
+<% end %>
+** Daily Deposit: <%= number_to_currency(combined_restaurant_deposit(@orders)) %> **

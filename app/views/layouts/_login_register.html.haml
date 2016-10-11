@@ -1,0 +1,14 @@
+- if user_signed_in?
+  %li= link_to "Your Orders", public_view_orders_path
+  %li= link_to "Edit Profile", edit_user_registration_path(current_user.id)
+  %li= link_to "Logout", destroy_user_session_path, :method => :delete
+  - if current_user.delivery_driver
+    - if current_user.clock_in
+      %li= link_to "Clock Out", admin_clock_out_path
+    - else
+      %li= link_to "Clock In", admin_clock_in_path
+- else
+  %li= link_to "Register", new_user_registration_path
+  %li= link_to "Login", new_user_session_path
+  %li
+    Sign in with: #{link_to "Facebook", user_omniauth_authorize_path(:facebook)} or #{link_to "Google", user_omniauth_authorize_path(:google)}

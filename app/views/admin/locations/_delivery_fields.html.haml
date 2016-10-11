@@ -1,0 +1,14 @@
+%span.fields
+  %li
+    = f.label :fee, "Deliver fee"
+    = f.text_field :fee
+  %li
+    %ol
+      %li
+        - @driver_collection.each do |driver|
+          %li.check.collection
+            = check_box_tag "location[delivery_driver_ids][]", driver.id, @location.delivery_drivers.include?(driver)
+            = driver.user.email
+        %br
+  %li
+    = link_to_remove_fields "remove delivery", f

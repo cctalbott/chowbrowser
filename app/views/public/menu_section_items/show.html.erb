@@ -1,0 +1,24 @@
+<!--<p><%#= link_to "Return to menu", public_menu_path(@item.menu_section.menu) %></p>-->
+
+<div class="name_description">
+  <h3><%= @item.name %></h3>
+  <p><%= @item.description %></p>
+</div>
+<p class="price"><%= number_to_currency(@item.price) %></p>
+
+<% if @item.item_option_sections.exists? %>
+  <%= render :partial => "item_options", :locals => {:item => @item, :item_option_sections => @item.item_option_sections} %>
+<% end %>
+
+<% if serving?(@item.menu_section.menu) %>
+  <%= link_to "Add to Order", public_line_items_path(:menu_section_item_id => @item), :method => :post %>
+<% else %>  
+  <p>Menu is not served at this time. You may try back when menu is being served.</p>
+<% end %>
+
+<!-- AJAX, pulls in current_order -->
+<!--<div id="current_order">
+  <script type="text/javascript">
+    $.getScript("/cart");
+  </script>
+</div>-->

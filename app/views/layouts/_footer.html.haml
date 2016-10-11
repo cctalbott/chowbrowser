@@ -1,0 +1,14 @@
+%nav
+  %p
+    #{link_to "Contact Us", new_contact_path} | #{link_to "Terms of Use", terms_path} | #{link_to "Privacy Policy", privacy_path}
+%p
+  \&copy; ChowBrowser | 5152 69th St, Suite 100, Lubbock, TX 79424 | p (555) 555–5555 :: (555) 555–5555 :: f (555) 555–5555
+%div{:class => "associated_icons"}
+  %div{:class => "tra_icon"}
+    %a{:href => "http://www.restaurantville.com/", :title => "Texas Restaurant Association"}
+      = image_tag "tralogo-footer.png"
+  %div{:class => "bbb_icon"}
+    %a{:id => "bbblink", :class => "sehzbus", :href => "http://www.bbb.org/south-plains-texas/business-reviews/delivery-service/chowbrowser-in-lubbock-tx-53131#bbblogo", :title => "CHOWBROWSER, Delivery Service, Lubbock, TX", :style => "display: block;position: relative;overflow: hidden; width: 100px; height: 38px; margin: 0px; padding: 0px;"}
+      %img{:style => "padding: 0px; border: none;", :id => "bbblinkimg", :src => "https://seal-southplains.bbb.org/logo/sehzbus/chowbrowser-53131.png", :width => "200", :height => "38", :alt => "CHOWBROWSER, Delivery Service, Lubbock, TX"}
+    :javascript
+      var bbbprotocol = ( ("https:" == document.location.protocol) ? "https://" : "http://" ); document.write(unescape("%3Cscript src='" + bbbprotocol + 'seal-southplains.bbb.org' + unescape('%2Flogo%2Fchowbrowser-53131.js') + "' type='text/javascript'%3E%3C/script%3E"));  

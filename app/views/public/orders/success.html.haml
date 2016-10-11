@@ -1,0 +1,71 @@
+- content_for :other_scripts do
+  :javascript
+    $(document).ready(function() {
+      PrivatePub.subscribe("/orders/#{@order.id}/status_update", function (data, channel) {
+        var status = ""+ data.order_status +"";
+        var header = "";
+        var paragraph = "";
+        switch(status) {
+          case "placed":
+            header = "Order Placed!";
+            paragraph = "Your order has been placed and is awaiting confirmation by #{@order.restaurant_name}.";
+            break;
+          case "confirmed":
+            header = "Order Confirmed!";
+            paragraph = "Your order has been confirmed by #{@order.restaurant_name}.";
+            break;
+          case "unconfirmed":
+            header = "Restaurant Confirmation Not Complete.";
+            paragraph = "Your order has failed to be confirmed by #{@order.restaurant_name}. We are contacting #{@order.restaurant_name} to ensure successful completion of your order and will contact you shortly with an updated status.";
+            break;
+          case "delivering":
+            header = "Order Being Delivered!";
+            paragraph = "Your order is being delivered. Estimated wait is #{@order.total_wait} minutes. Estimated wait on delivery orders may be inaccurate as a result of the distance from the restaurant to your delivery address or current traffic conditions.";
+            break;
+          default:
+            header = "Order Placed!";
+            paragraph = "Your order has been placed and is awaiting confirmation by #{@order.restaurant_name}.";
+        }
+        $("#order_status h1").html(header);
+        $("#order_status p").html(paragraph);
+      });
+    });
+#order_status
+  %h1 Order Placed!
+  %p Your order has been placed and is awaiting confirmation by #{@order.restaurant_name}.
+%p Order identification number #{@order.identification_no}
+%ul
+  %li
+    Order from #{@first_line_item_location.restaurant.name} at #{@first_line_item_location.address}, #{@first_line_item_location.city}, #{@first_line_item_location.region}
+  - total_price = 0.0
+  - for line_item in @order.cart.line_items do
+    - total_price += line_item.menu_section_item.price.to_f * line_item.quantity
+    %li
+      = line_item.menu_section_item.name
+      | #{number_to_currency(line_item.menu_section_item.price)} | Qty: #{h line_item.quantity.to_i}
+    - if line_item.menu_item_options
+      %li
+        %ul
+          - for menu_item_option in line_item.menu_item_options do
+            - total_price += menu_item_option.price.to_f * line_item.quantity
+            %li
+              = menu_item_option.name
+              | #{number_to_currency(menu_item_option.price)}
+  - if @order.cart.delivers
+    - total_price = total_price.to_f + @order.cart.location.delivery.fee.to_f
+  - sub_total = total_price
+  - tax = total_price.to_f * 0.0825
+  - total_price += tax
+  - if @order.cart.delivers
+    - total_price += @order.cart.tip.to_f
+  %li
+    Sub Total: #{number_to_currency(sub_total)}
+  %li
+    Tax: #{number_to_currency(tax)}
+  - if @order.cart.delivers && @order.cart.tip
+    %li
+      Tip: #{number_to_currency(@order.cart.tip)}
+  %li
+    Grand Total: #{number_to_currency(total_price)}
+%p= link_to "Back to Restaurants", public_restaurants_path
+= subscribe_to "/orders/#{@order.id}/status_update"

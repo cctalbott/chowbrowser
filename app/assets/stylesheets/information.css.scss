@@ -1,0 +1,31 @@
+@import "colors";
+@import "fonts";
+
+ul {
+  padding-left: 35px;
+  margin-bottom: 1.45em;
+  li {
+    list-style: disc outside none;
+  }
+}
+
+ol {
+  margin-bottom: 1.45em;
+  li {
+    list-style: decimal inside none;
+    margin-bottom: 1.45em;
+    ol {
+      padding-left: 30px;
+      margin-bottom: 0;
+      li {
+        list-style: lower-alpha inside none;
+        margin-bottom: 0;
+        ol {
+          li {
+            list-style: lower-roman inside none;
+          }
+        }
+      }
+    }
+  }
+}

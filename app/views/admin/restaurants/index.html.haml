@@ -1,0 +1,22 @@
+- content_for :crumbs do
+  %ul
+    %li= link_to "Admin Home", admin_path
+%ul
+  %li= link_to "Cuisines", admin_cuisines_path
+%h1 Restaurants
+%table
+  %tr
+    %th= sortable "name", "Restaurant"
+    %th Featured
+    %td{:align => "right"}= link_to "Add restaurant", new_admin_restaurant_path
+  - for restaurant in @restaurants do
+    %tr
+      %td= link_to restaurant.name, admin_restaurant_path(restaurant)
+      - if restaurant.featured
+        %td Yes
+      - else
+        %td No
+      %td{:align => "right"}
+        = link_to "Edit restaurant", edit_admin_restaurant_path(restaurant)
+        | #{link_to "Destroy restaurant", admin_restaurant_path(restaurant), :method => "delete", :confirm => "Are you sure? This will destroy the restaurant and all it's locations."}
+%p= link_to "Import Restaurants CSV", admin_import_restaurants_path

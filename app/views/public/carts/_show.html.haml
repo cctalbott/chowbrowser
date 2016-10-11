@@ -1,0 +1,52 @@
+%h1 Your Current Order
+- if @cart && @cart.line_items && @cart.line_items.length > 0
+  %table
+    %tr
+      %th{:align => "middle"} Qty
+      %th{:align => "left"} Item
+      %th{:align => "right"} Price
+    - @cart.line_items.each do |line_item|
+      %tr{:class => cycle("odd", "even")}
+        %td{:colspan => "3"}
+          %table
+            %tr
+              %td.qty{:align => "middle"}
+                - if line_item.quantity.to_int <= 1
+                  = link_to "-", public_line_item_path(line_item), :method => "delete", :remote => true, :class => "remove_item"
+                - elsif line_item.quantity.to_int > 1
+                  = link_to "-", public_line_item_path(line_item, :quantity => (line_item.quantity.to_int - 1)), :method => "put", :remote => true, :class => "remove_item"
+                = line_item.quantity
+                = link_to "+", public_line_item_path(line_item, :quantity => (line_item.quantity.to_int + 1)), :method => "put", :remote => true, :class => "add_item"
+              %td{:align => "left"}= h line_item.menu_section_item.name
+              %td{:align => "right"}= number_to_currency(line_item.full_price.to_f)
+            - if line_item.line_item_options.exists?
+              %tr.item_options
+                %td{:colspan => "3"}
+                  = line_item.line_item_options.collect{|lio| "#{lio.qty} #{lio.menu_item_option.name}"}.to_sentence()
+                  %br/
+                  = link_to "edit details", edit_public_line_item_path(line_item)
+              %tr
+                %td{:colspan => "3"}= link_to "hide details", "\#", :class => "show_options_button"
+            - if line_item.instructions && !line_item.instructions.blank?
+              %tr
+                %td{:colspan => "3"}
+                  <b>Special Instructions:</b> #{line_item.instructions}
+    /-# if @cart.location.delivers
+    /  %tr
+    /    %td{:colspan => 3, :align => "right"}
+    /      Pickup or Delivery
+    /      =# select( "cart", "delivers", { "Pickup" => false, "Delivery" => true})
+    %tr
+      %td{:align => "right", :colspan => "2"} Tax:
+      %td{:align => "right"}= number_to_currency @cart.tax
+    %tr
+      %td{:align => "right", :colspan => "2"} Total:
+      %td{:align => "right"}= number_to_currency (@cart.total_price.to_f + @cart.tax.to_f)
+    %tr
+      %td{:align => "right", :colspan => "3"}
+        //=# link_to "Checkout", new_public_order_path, :id => "checkout_link"
+        /=# link_to "Checkout", public_cart_tip_path, :id => "checkout_link"
+        = link_to "Checkout", public_cart_delivery_path, :id => "checkout_link"
+  = javascript_include_tag "public/cart"
+- else
+  %p Your cart is empty.

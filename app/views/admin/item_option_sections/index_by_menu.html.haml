@@ -1,0 +1,37 @@
+%h1 Option Sections | Menu: #{@menu.name} | Restaurant: #{@menu.location.restaurant.name}
+
+%ul
+  - @item_option_sections.select("item_option_sections.name").group("item_option_sections.name").each do |grouped_ios|
+    %li
+      #{grouped_ios.name}
+      %ul{:style => "padding-left: 20px;"}
+        - ItemOptionSection.by_menu(@menu.id).group("item_option_sections.id").where(:name => grouped_ios.name).each do |item_option_section|
+          %li
+            #{item_option_section.id} | #{item_option_section.menu_section_items.collect {|msi| msi.name}} | #{link_to "Edit Option Section", edit_admin_item_option_section_path(item_option_section.id)} | #{link_to("Destroy Option Section", admin_item_option_section_path(item_option_section), :method => :delete, :confirm => "Are you sure?")}
+            %ul{:style => "padding-left: 20px;"}
+              - item_option_section.menu_item_options.each do |menu_item_option|
+                %li #{menu_item_option.name} | #{number_to_currency(menu_item_option.price)}
+%table
+  %tr
+    %th ID
+    %th{:align => "left"} Option Section Name
+    %th{:align => "left"} Item Name
+    %th{:align => "left"} Menu Section Name
+  - @item_option_sections.each do |item_option_section|
+    %tr
+      %td{:align => "center"} #{item_option_section.id}
+      %td #{item_option_section.name}
+      %td #{item_option_section.menu_section_item.name}
+      %td #{item_option_section.menu_section_item.menu_section.name}
+    %tr
+      %td{:colspan => "4"}
+        %table
+          %tr
+            %th ID
+            %th{:align => "left"} Option Name
+            %th{:align => "right"} Option Price
+          - item_option_section.menu_item_options.each do |menu_item_option|
+            %tr
+              %td{:align => "center"} #{menu_item_option.id}
+              %td #{menu_item_option.name}
+              %td{:align => "right"} #{number_to_currency(menu_item_option.price)}

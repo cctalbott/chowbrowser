@@ -1,0 +1,6 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: "Big Country BBQ"
+  description: "BBQ in a big country."
+  report_email: "youremail@domain.com"

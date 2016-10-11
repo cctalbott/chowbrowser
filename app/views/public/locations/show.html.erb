@@ -1,0 +1,8 @@
+<h1><%=h @restaurant.name %></h1>
+<h2><%=h @location.address %>, <%=h @location.city %>, <%=h @location.region %> <%=h @location.postal_code %></h2>
+<h2>Menus</h2>
+<ul class="no_bullets">
+  <% for menu in @location.menus.order("position DESC") do %>
+    <li><%= link_to menu.name, public_menu_path(menu) %></li>
+  <% end %>
+</ul>

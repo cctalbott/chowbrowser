@@ -1,0 +1,22 @@
+%h1 Incomplete Orders
+- if @orders && @orders.length > 0
+  %table
+    %tr
+      %th ID
+      %th{:align => "left"} Status
+      %th{:align => "left"} Purchased
+      %th{:align => "left"} Restaurant
+      %th{:align => "left"} Customer
+      %th{:align => "right"} Total
+      %th &nbsp;
+    - @orders.each do |order|
+      %tr
+        %td{:align => "center"} #{order.id}
+        %td #{order.status}
+        %td #{order.purchased_at ? order.purchased_at : "Not Purchased"}
+        %td #{order.restaurant.name}
+        %td #{order.email}
+        %td{:align => "right"} #{number_to_currency(order.grand_total)}
+        %td #{link_to "Update Status", admin_update_order_status_path(order.id)}
+- else
+  %p.no_records No records.

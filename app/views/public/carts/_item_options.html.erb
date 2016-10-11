@@ -1,0 +1,18 @@
+<table>
+  <tr>
+    <th>+</th>
+    <th>Option</th>
+    <th>Price</th>
+  </tr>
+  <% for item_option in menu_item_options.order("created_at ASC, position DESC") do %>
+    <tr>
+      <td align="middle">
+        <% unless is_in_cart?(line_item) %>
+          <%= link_to "+", public_select_menu_item_option_path(item_option, line_item), :remote => true %>
+        <% end %>
+      </td>
+      <td><%= item_option.name %></td>
+      <td align="right"><%= number_to_currency(item_option.price) %></td>
+    </tr>
+  <% end %>
+</table>

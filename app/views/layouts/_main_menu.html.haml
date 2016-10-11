@@ -1,0 +1,6 @@
+%nav#mainmenu
+  %ul.hmenu.cf
+    %li= link_to "Restaurants", public_restaurants_path
+    - if current_user
+      - if(current_user.role?(:admin) || current_user.role?(:restaurant_owner) || current_user.role?(:restaurant_editor))
+        %li= link_to "Admin", admin_path

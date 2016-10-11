@@ -1,0 +1,21 @@
+<h2><%= @restaurant.name %> Locations</h2>
+<ul class="no_bullets">
+  <% for location in @restaurant.locations do %>
+    <li>
+      <p><%= link_to "#{location.address}, #{location.city}, #{location.region} #{location.postal_code}", public_location_path(location), :class => "location_ajax_link" %></p>
+    </li>
+  <% end %>
+</ul>
+
+<div id="location_ajax">
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".location_ajax_link").fancybox({
+  		ajax: {
+        type: "GET"
+  		}
+  	});
+  });
+</script>

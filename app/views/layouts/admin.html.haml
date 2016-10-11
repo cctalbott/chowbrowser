@@ -1,0 +1,48 @@
+!!!
+/[if lt IE 7] <html class="no-js ie6 oldie" lang="en">
+/[if IE 7] <html class="no-js ie7 oldie" lang="en">
+/[if IE 8] <html class="no-js ie8 oldie" lang="en">
+/[if gt IE 8] <html class="no-js ie8 oldie" lang="en">
+%head
+  %meta{:charset => "utf-8"}/
+  %meta{:content => "IE=edge,chrome=1", "http-equiv" => "X-UA-Compatible"}/
+  %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+  %meta{:content => "noindex,nofollow", :name => "robots"}/
+  %title= @page_title or "ChowBrowser Admin"
+  %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/x-icon"}/
+  %link{:href => "https://fonts.googleapis.com/css?family=Salsa|Open+Sans:400italic,700italic,400,700|Open+Sans+Condensed:300,300italic", :rel => "stylesheet", :type => "text/css"}/
+  = stylesheet_link_tag "application"
+  = stylesheet_link_tag "admin"
+  = yield :other_styles
+  = javascript_include_tag "application"
+  = yield :other_scripts
+  = stylesheet_link_tag "print", :media => "print"
+  = csrf_meta_tags
+  - if Rails.env.production?
+    = render 'layouts/google_analytics'
+%body
+  #container
+    - if notice
+      %p.notice= notice
+    - if alert
+      %p.alert= alert
+    #mainheader.cf
+      %h1#root_link= link_to "Home", root_path
+      .wrapper.cf
+        %nav#usermenu
+          %ul.hmenu
+            = render 'layouts/login_register'
+        = render 'layouts/main_menu'
+    #content
+      = render 'layouts/admin_menu'
+      %nav#crumbmenu.wrapper
+        = yield :crumbs
+      .wrapper.cf
+        = yield
+    #mainfooter
+      .wrapper
+        = render 'layouts/footer'
+    %div
+      /[if lt IE 7 ]
+        <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
+        <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>

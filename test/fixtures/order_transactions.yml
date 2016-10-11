@@ -1,0 +1,5 @@
+one:
+  order: one
+  action: "capture"
+  amount: 563
+  success: TRUE

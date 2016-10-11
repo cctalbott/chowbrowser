@@ -1,0 +1,26 @@
+= h render :partial => "admin/orders/partials/for_header"
+%h1 Previous orders
+- if @orders && @orders.length > 0
+  #view_by_inputs
+    = h render :partial => "admin/orders/partials/indexes_select_boxes/year_month_category"
+    %p
+      = h label :order, :restaurant, "Restaurant"
+      = h collection_select(:order, :restaurant, @restaurant_collection, :id, :name, :prompt => "all", :selected => params[:restaurant])
+  %p.downloads
+    Download: #{h link_to "CSV", admin_orders_by_restaurant_path(@year, @month, @day, params[:restaurant], :format => :csv)} | #{h link_to "PDF", admin_orders_by_restaurant_path(@year, @month, @day, params[:restaurant], :format => :pdf)}
+  = h render :partial => "admin/orders/partials/sums"
+  %table
+    %tr
+      %th.id_col ID
+      %th{:align => "left"} Customer
+      %th.date_col{:align => "left"} Day/Time
+      %th.price{:align => "right"} Total
+    - @orders.each do |order|
+      %tr{:id => "order_#{h order.id}"}
+        / <td align="center" class="actions one"></haml:block><haml:silent></haml:silent><haml:block></td>
+        %td.id_col{:align => "center"}= h link_to order.id, admin_order_path(order.id), :class => "overlay_trigger"
+        %td= h link_to truncate(order.email, :length => 50), admin_orders_by_customer_path(order.purchased_at.year, order.purchased_at.month, order.purchased_at.day, order.id)
+        %td.date_col= h order.purchased_at.strftime("%Y %b %a %l:%M%p %Z")
+        %td.price{:align => "right"}= h number_to_currency(order.price)
+- else
+  %p You have no previous orders on record.
