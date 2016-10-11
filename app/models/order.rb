@@ -1,12 +1,17 @@
 class Order < ActiveRecord::Base
+  # Declare relationships #
   belongs_to :cart
-  belongs_to :user
+  belongs_to :user  
   has_many :transactions, :class_name => "OrderTransaction"
   has_one :billing_address
   has_one :delivery_address, :through => :cart
   has_and_belongs_to_many :call_statuses
+  
+  # make the following variables accessible #
   attr_accessor :card_number, :card_verification, :price,
     :purchased_at
+    
+  # Make sure data is kosher before it can enter your database #
   validate :validate_card, :on => :create
   validates :ip_address, :card_type, :card_expires_on, :email,
     :presence => true
@@ -16,13 +21,17 @@ class Order < ActiveRecord::Base
     :format => { :with => /^(1?(-?\d{3})-?)?(\d{3})(-?\d{4})$/ }
   #validates_associated :cart, :transactions
   validates_associated :billing_address, :delivery_address
+  
+  # Let Order work with the attributes of these objects. #
   accepts_nested_attributes_for :billing_address, :allow_destroy => true
   accepts_nested_attributes_for :delivery_address, :allow_destroy => true
   accepts_nested_attributes_for :cart, :allow_destroy => true
+  
+  # START Keep your queries DRY, scopes and methods to not have to rewrite the same pieces of queries repeatedly #
   scope :purchased, where("carts.purchased_at IS NOT NULL")
   scope :delivers, where("carts.delivers = ?", true)
   #scope :delivers, where(:cart => {:delivers => true})
-
+  
   def self.by_year(year)
     query = purchased
     if Rails.env.production? || Rails.env.development? || Rails.env.staging?
@@ -32,7 +41,7 @@ class Order < ActiveRecord::Base
     end
     return query
   end
-
+  
   def self.by_month_and_year(month, year)
     query = by_year(year)
     if Rails.env.production? || Rails.env.development? || Rails.env.staging?
@@ -42,7 +51,7 @@ class Order < ActiveRecord::Base
     end
     return query
   end
-
+  
   def self.by_day(month, year, day)
     query = by_month_and_year(month, year)
     if Rails.env.production? || Rails.env.development? || Rails.env.staging?
@@ -56,7 +65,7 @@ class Order < ActiveRecord::Base
   def self.by_customer(email)
     where("orders.email = ?", email)
   end
-
+  
   def self.purchased_by_customer(email, month, year)
     query = select("DISTINCT orders.*, carts.purchased_at").joins(:cart)
     unless year == "all"
@@ -111,7 +120,9 @@ class Order < ActiveRecord::Base
     query = query.purchased
     return query
   end
-
+  # END Keeping queries DRY #
+  
+  # START Get selection collections #
   def self.year_collection(restaurant = nil, customer = nil)
     if restaurant != nil
       query = select("DISTINCT extract(year from carts.purchased_at::TIMESTAMP WITH TIME ZONE AT TIME ZONE 'America/Chicago') AS
@@ -188,7 +199,9 @@ class Order < ActiveRecord::Base
   def self.purchase(id)
     find(id).purchase
   end
-
+  # END Get selection collections #
+  
+  # Email automated daily reports #
   def self.send_reports
     @os = joins(:cart).by_day(Time.now.month, Time.now.year, Time.now.day).purchased
     #@os = joins(:cart).by_day(8, 2012, 23).purchased
@@ -200,12 +213,14 @@ class Order < ActiveRecord::Base
       end
     end
   end
-
+  
+  # Format months as spelled out name instead of number #
   def month_to_name
     month = Date.new(Time.now.year, purchased_at_month.to_i)
     month.strftime("%B")
   end
 
+  # Authorize credit cards #
   def authorize
     if self.cart.tip && self.cart.tip > 0
       @amount = price_in_cents + tax_in_cents + tip_in_cents
@@ -217,6 +232,7 @@ class Order < ActiveRecord::Base
     response.success?
   end
 
+  # Complete credit card transactions #
   def purchase
     #@cart = Cart.find(self.cart_id)
     #cart.update_attribute(:purchased_at, Time.now)
@@ -241,6 +257,7 @@ class Order < ActiveRecord::Base
     response.success?
   end
 
+  # START Convert monetary amounts to cents for credit card gateway #
   def price_in_cents
     (cart.total_price*100).round
   end
@@ -252,6 +269,7 @@ class Order < ActiveRecord::Base
   def tip_in_cents
     (self.cart.tip*100).round
   end
+  # END Convert to cents for cc #
 
   def restaurant
     location.restaurant
@@ -281,7 +299,8 @@ class Order < ActiveRecord::Base
   def location
     cart.line_items.first.menu_section_item.menu_section.menu.location
   end
-
+  
+  # format location address output #
   def location_address
     begin
       "#{cart.line_items.first.menu_section_item.menu_section.menu.location.
@@ -292,7 +311,8 @@ class Order < ActiveRecord::Base
       "No current address on record."
     end
   end
-
+  
+  # format delivery address output #
   def deliver_address
     "#{cart.delivery_address.address}, #{cart.delivery_address.city}"
   end
@@ -356,7 +376,8 @@ class Order < ActiveRecord::Base
     end
     return total
   end
-
+  
+  # START Calculate each parties cut of profits #
   def restaurant_deposit
     location_percentage = location.percentage.to_f / 100
     total = (subtotal * location_percentage) + ((subtotal * location_percentage) * 0.0825)
@@ -403,7 +424,9 @@ class Order < ActiveRecord::Base
   def text_location
     location.location_numbers.where("location_numbers.text_number = ?", true)
   end
+  # END Calculate each parties cut of profits #
 
+  # Calculate estimated wait for order #
   def total_wait
     if cart.delivers
       if !cart.delivery_duration.blank?
@@ -417,9 +440,11 @@ class Order < ActiveRecord::Base
 
     return response
   end
-
+  
+  # Private methods that are only needed within the Order model
   private
 
+    # START Gather credit card gateway info #
     def purchase_options
       {
         :ip => ip_address,
@@ -466,7 +491,9 @@ class Order < ActiveRecord::Base
         :last_name          => billing_address.last_name
       )
     end
-
+    # END Gather credit card gateway info #
+    
+    # Calculate total price of order #
     def total
       total_price = 0.0
       cart.line_items.each do |line_item|
